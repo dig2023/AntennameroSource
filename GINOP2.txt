@@ -1,0 +1,3043 @@
+{$A8,B-,C+,D+,E-,F-,G+,H+,I+,J-,K-,L+,M-,N+,O+,P+,Q-,R+,S-,T-,U-,V+,W-,X+,Y+,Z1}
+{$MINSTACKSIZE $00004000}
+{$MAXSTACKSIZE $00100000}
+{$IMAGEBASE $00400000}
+{$APPTYPE GUI}
+{$WARN SYMBOL_DEPRECATED ON}
+{$WARN SYMBOL_LIBRARY ON}
+{$WARN SYMBOL_PLATFORM ON}
+{$WARN UNIT_LIBRARY ON}
+{$WARN UNIT_PLATFORM ON}
+{$WARN UNIT_DEPRECATED ON}
+{$WARN HRESULT_COMPAT ON}
+{$WARN HIDING_MEMBER ON}
+{$WARN HIDDEN_VIRTUAL ON}
+{$WARN GARBAGE ON}
+{$WARN BOUNDS_ERROR ON}
+{$WARN ZERO_NIL_COMPAT ON}
+{$WARN STRING_CONST_TRUNCED ON}
+{$WARN FOR_LOOP_VAR_VARPAR ON}
+{$WARN TYPED_CONST_VARPAR ON}
+{$WARN ASG_TO_TYPED_CONST ON}
+{$WARN CASE_LABEL_RANGE ON}
+{$WARN FOR_VARIABLE ON}
+{$WARN CONSTRUCTING_ABSTRACT ON}
+{$WARN COMPARISON_FALSE ON}
+{$WARN COMPARISON_TRUE ON}
+{$WARN COMPARING_SIGNED_UNSIGNED ON}
+{$WARN COMBINING_SIGNED_UNSIGNED ON}
+{$WARN UNSUPPORTED_CONSTRUCT ON}
+{$WARN FILE_OPEN ON}
+{$WARN FILE_OPEN_UNITSRC ON}
+{$WARN BAD_GLOBAL_SYMBOL ON}
+{$WARN DUPLICATE_CTOR_DTOR ON}
+{$WARN INVALID_DIRECTIVE ON}
+{$WARN PACKAGE_NO_LINK ON}
+{$WARN PACKAGED_THREADVAR ON}
+{$WARN IMPLICIT_IMPORT ON}
+{$WARN HPPEMIT_IGNORED ON}
+{$WARN NO_RETVAL ON}
+{$WARN USE_BEFORE_DEF ON}
+{$WARN FOR_LOOP_VAR_UNDEF ON}
+{$WARN UNIT_NAME_MISMATCH ON}
+{$WARN NO_CFG_FILE_FOUND ON}
+{$WARN MESSAGE_DIRECTIVE ON}
+{$WARN IMPLICIT_VARIANTS ON}
+{$WARN UNICODE_TO_LOCALE ON}
+{$WARN LOCALE_TO_UNICODE ON}
+{$WARN IMAGEBASE_MULTIPLE ON}
+{$WARN SUSPICIOUS_TYPECAST ON}
+{$WARN PRIVATE_PROPACCESSOR ON}
+{$WARN UNSAFE_TYPE OFF}
+{$WARN UNSAFE_CODE OFF}
+{$WARN UNSAFE_CAST OFF}
+unit Unit1;
+// log det ertekek es a csillapito ertekei:
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, CPort, hex, ComCtrls, CPortCtl, Buttons,
+  ColorButton, Mask, Math, unit2, ShlObj, SHFolder, Jpeg;
+
+type  //define an ENUM to describe the possible screenshot types.
+  TScreenShotType = (sstActiveWindow, sstActiveClientArea,
+    sstPrimaryMonitor, sstDesktop);
+
+type
+  TForm1 = class(TForm)
+    tmrKeretRajzolo: TTimer;
+    I2: TImage;
+    cp: TComPort;
+    lbFPS: TLabel;
+    pb: TProgressBar;
+    lbVolt: TLabel;
+    Timer2: TTimer;
+    lbMarkMin: TLabel;
+    tmrMeresRestart: TTimer;
+    tmrFullStart: TTimer;
+    ComComboBox1: TComComboBox;
+    i1: TImage;
+    i3: TImage;
+    lbMarkEger: TLabel;
+    fr1: TLabel;
+    fr2: TLabel;
+    fr3: TLabel;
+    fr4: TLabel;
+    fr5: TLabel;
+    fr6: TLabel;
+    db1: TLabel;
+    db2: TLabel;
+    db3: TLabel;
+    db4: TLabel;
+    btnStartStop: TColorButton;
+    cStart: TColorButton;
+    cStop: TColorButton;
+    cCenter: TColorButton;
+    cSpan: TColorButton;
+    cCal: TColorButton;
+    tmrcalib: TTimer;
+    tmrCalcSaved: TTimer;
+    se1: TMaskEdit;
+    ce1: TMaskEdit;
+    pe1: TMaskEdit;
+    ne1: TMaskEdit;
+    db5: TLabel;
+    btnConnect: TColorButton;
+    tmrComtest: TTimer;
+    NotConnect: TImage;
+    Connect: TImage;
+    lbConnStatus: TLabel;
+    Edit1: TEdit;
+    Timer3: TTimer;
+    db6: TLabel;
+    db7: TLabel;
+    db8: TLabel;
+    db9: TLabel;
+    db10: TLabel;
+    db11: TLabel;
+    cS11: TColorButton;
+    cS21: TColorButton;
+    cCalRemove: TColorButton;
+    cbHofok: TColorButton;
+    cbHomero: TCheckBox;
+    gb1: TGroupBox;
+    Edit2: TEdit;
+    btnSzintMer: TButton;
+    Edit6: TEdit;
+    Label1: TLabel;
+    tmrAD2_read: TTimer;
+    Label2: TLabel;
+    Label3: TLabel;
+    Edit7: TEdit;
+    Label4: TLabel;
+    cbkorrekcio: TCheckBox;
+    Label5: TLabel;
+    Button2: TButton;
+    Edit8: TEdit;
+    Label6: TLabel;
+    Edit9: TEdit;
+    Edit10: TEdit;
+    Label7: TLabel;
+    Edit11: TEdit;
+    Label8: TLabel;
+    Label9: TLabel;
+    tmrSzintMeres: TTimer;
+    Button4: TButton;
+    Edit13: TEdit;
+    Image1: TImage;
+    lbinvalid: TLabel;
+    bb1: TLabel;
+    bb2: TLabel;
+    bb3: TLabel;
+    bb4: TLabel;
+    bb5: TLabel;
+    Setups: TGroupBox;
+    cbTorol: TCheckBox;
+    cbLog: TCheckBox;
+    MINFRQ: TEdit;
+    Label10: TLabel;
+    lab1: TLabel;
+    MAXFRQ: TEdit;
+    Label11: TLabel;
+    frqValtas: TEdit;
+    Label12: TLabel;
+    MINSPAN: TEdit;
+    Label13: TLabel;
+    MAXSPAN: TEdit;
+    lab2: TLabel;
+    SPANLEPES: TEdit;
+    Label14: TLabel;
+    cbDetType: TComboBox;
+    OK: TButton;
+    Button5: TButton;
+    gbdet: TGroupBox;
+    Button3: TButton;
+    Edit3: TEdit;
+    Edit5: TEdit;
+    Edit4: TEdit;
+    detfrqlepes: TEdit;
+    btdetvzar: TButton;
+    edDaErt: TEdit;
+    Button1: TButton;
+    Label15: TLabel;
+    lbMark1: TLabel;
+    lbMark2: TLabel;
+    gbAnt21: TGroupBox;
+    edAntStart: TEdit;
+    edAntStop: TEdit;
+    edAntStep: TEdit;
+    Label16: TLabel;
+    cbAntFut: TCheckBox;
+    edAntWait: TEdit;
+    Label17: TLabel;
+    edAntFrq: TEdit;
+    btnAntSweepStart: TButton;
+    tmrAntSweep: TTimer;
+    Label18: TLabel;
+    cbReloadOld: TCheckBox;
+    SaveScreen: TButton;
+    editFN: TEdit;
+    procedure tmrKeretRajzoloTimer(Sender: TObject);
+    procedure Keret(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cpRxChar(Sender: TObject; Count: Integer);
+    function ProcessData(data: char):boolean;
+    function bin2byte(s:string):byte;
+    procedure VonalHuzas(PontSzam: integer);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnStartStop1Click(Sender: TObject);
+    procedure Timer2Timer(Sender: TObject);
+    procedure markerszamolas;
+    procedure tmrMeresRestartTimer(Sender: TObject);
+    procedure tmrFullStartTimer(Sender: TObject);
+    procedure i1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure I2MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure tmrcalibTimer(Sender: TObject);
+    procedure tmrCalcSavedTimer(Sender: TObject);
+    procedure cStartClick(Sender: TObject);
+    procedure cCenterClick(Sender: TObject);
+    procedure cStopClick(Sender: TObject);
+    procedure cSpanClick(Sender: TObject);
+    procedure se1Exit(Sender: TObject);
+    procedure se1KeyPress(Sender: TObject; var Key: Char);
+    procedure ce1Exit(Sender: TObject);
+    procedure ce1KeyPress(Sender: TObject; var Key: Char);
+    procedure pe1Exit(Sender: TObject);
+    procedure pe1KeyPress(Sender: TObject; var Key: Char);
+    procedure ne1Exit(Sender: TObject);
+    procedure ne1KeyPress(Sender: TObject; var Key: Char);
+    procedure FrqEllenorzesek(MiValtozott: byte);
+    function RemoveSpace(s2 :string):string;
+    function MinFrqBand(band: boolean):integer;
+    function MaxFrqBand(band: boolean):integer;
+    function BandVisit(Frq:integer): integer;
+    function dB2Pixel(d:extended):integer;
+    function ad2dB(d:extended; pontszam:word):extended;
+    function dBtoSWR(db:extended):extended;
+    function Swr2Pixel(d:extended):integer;
+    procedure GrafikonDbben(csakertekmodosult:boolean);
+    procedure GrafikonSWRben;
+    procedure btnConnectClick(Sender: TObject);
+    procedure tmrComtestTimer(Sender: TObject);
+    procedure ConnectClick(Sender: TObject);
+    procedure NotConnectClick(Sender: TObject);
+    procedure ConnectMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure NotConnectMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure Button3Click(Sender: TObject);
+    procedure rsmentes(ertek: integer);
+    procedure Timer3Timer(Sender: TObject);
+    function GetField (sLine:string; Index :integer; ToEol :boolean) :string;
+    procedure cS11Click(Sender: TObject);
+    procedure cCalRemoveClick(Sender: TObject);
+    procedure cCalClick(Sender: TObject);
+    procedure cS21Click(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure NoHardwareAlert;
+    procedure cbHofokClick(Sender: TObject);
+    procedure btnSzintMerClick(Sender: TObject);
+    procedure SzintKorrekcio(Sender: TObject);
+    procedure tmrAD2_readTimer(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure SzintKalibKovFreqLeptetes;
+    procedure tmrSzintMeresTimer(Sender: TObject);
+    function KalibraciosSzintKeresese(kozepfrq: word): word;
+    procedure Button1Click(Sender: TObject);
+    function Pontszam2frq(pontszam:word):extended;
+    function ad2dB_logdetbol(ad_ertek:word; pontszam:word):extended;
+    function HeadLogDet_db_kereses(frqpoz: word; ad_amit_beolvastunk:word):extended;
+    procedure Button4Click(Sender: TObject);
+    procedure cS11gombfrissitese;
+    procedure cS21gombfrissitese;
+    procedure cCalgombfrissitese;
+    procedure cCalRemovegombfrissitese;
+    function ascalRead:boolean;
+    procedure Image1Click(Sender: TObject);
+    procedure dbkfontcolor(SzinGrafikon:tcolor);
+    procedure bbkvisible(latszik:boolean);
+    procedure OKClick(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure btdetvzarClick(Sender: TObject);
+    procedure i1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure btnAntSweepStartClick(Sender: TObject);
+    Procedure Ant_mereshez_Frq_es_Szint_Iras(FrqS:String);
+    procedure tmrAntSweepTimer(Sender: TObject);
+    procedure GetScreenShot(shotType: TScreenShotType);
+    procedure SaveScreenClick(Sender: TObject);
+    function CalcHeightDifference : String;
+
+    { Private declarations }
+  private
+    procedure MeresInditasa;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+type
+  THWState =
+    (
+     Idle,
+     WaitResults
+    );
+
+type
+  ConnStateState =
+    (
+     C_Idle,
+     C_Open,
+     C_SendTestQuestion,
+     C_TestResult
+    );
+
+type
+  detType =
+    (
+     det_hsms2855,
+     det_egyeb
+    );
+
+var
+  CalOpen, CalS21 :array[1..201] of extended; // dbm-es ertek
+  Vonal_in_dB_S11, Vonal_in_dB_S21 : array[1..201] of  extended;
+  Head_dB_cal: array[1..3, 1..2, 1..10] of extended; // 1. fej szama, 2. 1=szint 2=ertek, 3. 1-5: pont szama
+  Head_dB_cal_pont: array[1..3] of byte; // egy fejhez ennyi db pont tartozik
+
+  HeadLogDet_Max_frq: byte;
+  HeadLogDet_dB_frq: array[1..20] of word; // A frekvencia ertekek
+  HeadLogDet_dB_szintek: array[1..20, 1..10] of extended; // 1. a kalibracio frekvenciáí, 2. szint sorszama, ertek: szint db-ben
+  HeadLogDet_dB_cal: array[1..20, 1..10] of word; // 1. a kalibracio frekvenciáí, 2. szintek, ertek: da érték
+
+  SzintCal_da_ertekek: array[1..1000] of word;
+  SzintCal_frq_ertekek: array[1..1000] of word;
+
+  Max_SzintCal: word;
+
+  pontpoz: integer;
+  varandomeresekszama: integer;         // ennyi merest kuld meg a hw
+  ResultTemp, ResMax, ResMin: integer;
+  ResultPontSzama: integer;
+  HW: THWState;
+  CalOpenb, CalS21b: Boolean;
+  CalOpenOK, CalS21OK: Boolean;
+  startido,stopido: tdatetime;
+  logpoz:word;
+  logmemoria:array[1..60000] of string;
+  marker2x, oldmarker2x:integer;
+  SzinH, SzinGrafikon, SzinKeret, SzinGombHatter, SzinGombHatterS11, SzinGombHatterS21, SzinGombHatterS11fako, SzinGombHatterS21fako, SzinGombZold, SzinGombPiros,
+    btnStartStopBackColor, cCalBackColor, cS11BackColor, cS21BackColor :TColor;
+  f: TForm;
+  StartFrq, StopFrq, SpanFrq, StepPerPoint: word;
+  CenterFrq: extended;
+  ValidStartFrq, ValidStopFrq, ValidSpanFrq: word;
+  ValidCenterFrq: extended;
+  BandActuall: integer;
+  CalStartFrq, CalStopFrq: word;
+
+  ComPorts:array[1..100] of string;
+  ComPortsDb: byte;
+  ComTestnr: byte;
+  ComTestState: ConnStateState;
+  PortTesztEredmeny: boolean;
+
+//  MeresUtolsoPontVoltErteke, ElozoPontVoltErteke: extended;
+  NextCycleSaveToFile: boolean;
+  rsMeresdb: integer;
+  S11show, S21show, S11showInSWRformat: boolean;
+  CloseInProcess: boolean;
+  LogDet_Homeres, LogDet_szintmeres, ResultS11jott, FrqAllitasUtanSzintmeres: boolean;
+  EgyTeljesGrafikonKirajzolva: boolean;
+
+  AsFent:extended; // 10dbm
+  AsLent:extended; // dbm
+
+  i1Left: integer;
+  Mark1_poz, Mark2_poz: integer;
+
+  lbrush : LOGBRUSH; // szaggatott vonalhoz
+  userstyle : array of DWORD;
+  FileokUtvonala:string;
+
+  minimumSWRFreq, minimumSWRErtek:string; // file menteshez
+
+
+Const
+  TeljesMeresRestartTIMEOUT = 30;
+  TeljesFutasIdoMaxTIMEOUT=1000;
+  DelayBeetwen2Points=300; // alapkesleltetes 2 pont merese kozott (1-65000)
+  DelayFirstPoint=1000; // kesleltetes az elso pont elott (1-65000)
+//  PointDBConst = 199; // +1 = 200
+  PointDBConst = 200; // +1 = 201
+  detectorType: detType = (det_hsms2855);
+  Maxvarandomeresekszama = 201 * 4 ;//+ 2; // ennek meg kell, hogy egyezzen a pontok szamaval
+  RajzolasEngedelyezve = true;
+
+  implementation
+{$R *.dfm}
+
+procedure logkiirasdiskre;
+var f:textfile;
+i:word;
+begin
+if logpoz>1 then
+  begin
+  assignfile(f,FileokUtvonala+'muszerlog.txt');
+  if fileexists('muszerlog.txt') then
+    begin
+    append(f);
+    end else
+    rewrite(f);
+  for i:=1 to logpoz do
+    begin
+    writeln(f,logmemoria[i]);
+    end;
+  closefile(f);
+  end;
+logpoz:=1;
+end;
+
+{*****************************************************************************
+* GetField - a ';' -el szeparalt mezok kozul visszaadja az Index-ediket
+* Index = 0..n
+*****************************************************************************}
+function TForm1.GetField (sLine:string; Index :integer; ToEol :boolean) :string;
+var
+  FieldIndex :integer;
+  i:  integer;
+begin
+  result:= '';
+  FieldIndex:= 0;
+  i:= 1;
+  while ((i <= length(sLine)) and (FieldIndex < Index)) do //elmegy a megfelelo mezoig
+     begin
+     if (sLine[i] = ';') then
+        inc(FieldIndex);
+     inc(i);
+     end;
+  while ((i <= length(sLine)) and (sLine[i] <> ';')) do //mezot kigyujti ','-ig
+     begin
+     result:= result + sLine[i];
+     inc(i);
+     end;
+  if ((ToEol) and (i < length(sLine))) then    //ToEol - a mezo kezdetetol a sor vegeig gyujt
+    result:= result + copy(sLine,i,Length(sLine)-i+1);
+end;
+
+procedure logol(s:string; ujsorba:boolean);
+begin
+if ujsorba then logpoz:=logpoz+1;
+logmemoria[logpoz]:=logmemoria[logpoz] + s;
+if logpoz>59999 then logkiirasdiskre;
+end;
+
+procedure TForm1.tmrKeretRajzoloTimer(Sender: TObject);
+begin
+tmrKeretRajzolo.Enabled:=false;
+Keret(nil);
+btnConnectClick(nil); // com port megnyitasa
+end;
+
+{*******************************************************************************
+* Keret rajzolása
+*******************************************************************************}
+procedure TForm1.Keret(Sender: TObject);
+var
+  i: integer;
+  m:integer;
+  eltolas,f:integer;
+begin
+i2.align:=AlClient;
+with i2.canvas do
+  begin
+  Brush.Color := SzinH; // alap törlése
+  Brush.Style := bsSolid;
+  pen.Mode:=pmCopy; //pmBlack, pmWhite, pmNop, pmNot, pmCopy, pmNotCopy,
+//    pmMergePenNot, pmMaskPenNot, pmMergeNotPen, pmMaskNotPen, pmMerge,
+//    pmNotMerge, pmMask, pmNotMask, pmXor, pmNotXor
+  FillRect(Cliprect);
+  end;
+
+with i1.canvas do
+  begin
+  doublebuffered:=true;
+  pen.Mode:=pmCopy; //pmBlack, pmWhite, pmNop, pmNot, pmCopy, pmNotCopy,
+//    pmMergePenNot, pmMaskPenNot, pmMergeNotPen, pmMaskNotPen, pmMerge,
+//    pmNotMerge, pmMask, pmNotMask, pmXor, pmNotXor http://docwiki.embarcadero.com/Libraries/XE2/en/Vcl.Graphics.TPenMode
+  Brush.Color := SzinH; // alap törlése
+  Brush.Style := bsSolid;
+  FillRect(Cliprect);
+
+  pen.Style:=psSolid;    // psSolid, psDash, psDot, psDashDot, psDashDotDot, psClear, psInsideFrame
+  pen.Width:=2;
+  pen.Color:= SzinKeret; //  fõ keret rajzolása
+  if RajzolasEngedelyezve then
+    begin
+    MoveTo(1 , 1 );
+    LineTo(601, 1 );  // vizszintes
+    LineTo(601, 401);  // le
+    LineTo(1 , 401);   // lent viz
+    LineTo(1 , 1);    // jobb fugg
+    end;
+
+  pen.Width:=1;
+  pen.Style:=psSolid;    // psSolid, psDash, psDot, psDashDot, psDashDotDot, psClear, psInsideFrame
+  for i:=1 to 9 do
+    begin
+    if RajzolasEngedelyezve then
+      begin
+      MoveTo(1 , i*40 );  // vizszintes vonal
+      LineTo(601 , i*40);    // jobb fugg
+
+      MoveTo(i*60 +1, 1 );  // függõ vonal
+      LineTo(i*60 +1, 401);    // jobb fugg
+      end;
+    end;
+  end;
+
+i3.Height:=i1.Height;
+i3.Width:=i1.Width;
+i3.Canvas.CopyRect( Rect(0,0,i1.Width, i1.Height), i1.Canvas, Rect(0,0,i1.Width, i1.Height)); // masolas az alap kep masolata
+
+// Szinek beallitasa:
+fr1.Font.Color:=SzinGrafikon;
+fr2.Font.Color:=SzinGrafikon;
+fr3.Font.Color:=SzinGrafikon;
+fr4.Font.Color:=SzinGrafikon;
+fr5.Font.Color:=SzinGrafikon;
+fr6.Font.Color:=SzinGrafikon;
+dbkfontcolor(SzinGrafikon);
+
+bb1.Font.Color:=SzinGrafikon;
+bb2.Font.Color:=SzinGrafikon;
+bb3.Font.Color:=SzinGrafikon;
+bb4.Font.Color:=SzinGrafikon;
+bb5.Font.Color:=SzinGrafikon;
+f:=6;
+db1.Top:=i1.Top - f +10; // hogy elferjen a fel/le nyil
+db2.Top:=i1.Top - f + 40;
+db3.Top:=i1.Top - f + 80;
+db4.Top:=i1.Top - f + 120;
+db5.Top:=i1.Top - f + 160;
+db6.Top:=i1.Top - f + 200;
+db7.Top:=i1.Top - f + 240;
+db8.Top:=i1.Top - f + 280;
+db9.Top:=i1.Top - f + 320;
+db10.Top:=i1.Top - f+ 360;
+db11.Top:=i1.Top - f+ 400;
+
+lbinvalid.Font.Color:=SzinGombPiros;
+eltolas:= 10;
+fr1.Left:=i1.Left - 12 - eltolas;
+fr2.Left:=i1.Left + 108- eltolas;
+fr3.Left:=i1.Left + 228- eltolas;
+fr4.Left:=i1.Left + 348- eltolas;
+fr5.Left:=i1.Left + 468- eltolas;
+fr6.Left:=i1.Left + 588- eltolas;
+m:=i1.Top + i1.Height + 8;
+fr1.Top:=m;
+fr2.Top:=m;
+fr3.Top:=m;
+fr4.Top:=m;
+fr5.Top:=m;
+fr6.Top:=m;
+m:=i1.Left - 40 - 8 + 5;
+db1.Left:=m;
+db2.Left:=m;
+db3.Left:=m;
+db4.Left:=m;
+db5.Left:=m;
+db6.Left:=m;
+db7.Left:=m;
+db8.Left:=m;
+db9.Left:=m;
+db10.Left:=m;
+db11.Left:=m;
+
+m:=i1.Left + i1.Width + 8; // swr kiirasok
+bb1.Left:=m;
+bb2.Left:=m;
+bb3.Left:=m;
+bb4.Left:=m;
+bb5.Left:=m;
+
+GrafikonDbben(false);
+
+lbMarkMin.Font.Color:=SzinGrafikon;
+lbMarkEger.Font.Color:=SzinGrafikon;
+lbMark1.Font.Color:=SzinGrafikon;
+lbMark2.Font.Color:=SzinGrafikon;
+lbMarkEger.Color:=SzinH;
+lbMarkMin.Color:=SzinH;
+lbMark1.Color:=SzinH;
+lbMark2.Color:=SzinH;
+
+lbConnStatus.Font.Color:=SzinGrafikon;
+lbFPS.Font.Color:=SzinGrafikon;
+pb.Brush.Color:=SzinH;
+pb.Position:=100; pb.Position:=0;
+//btnStartStop.Brush.Color:=SzinGombHatter;
+
+btnStartStop.BackColor:=SzinGombHatter;
+btnStartStopBackColor:=SzinGombHatter;
+btnStartStop.HoverColor:=SzinGombZold;
+btnStartStop.Font.Color:=SzinGrafikon;
+
+cStart.BackColor:=SzinGombHatter;
+cCenter.BackColor:=SzinGombHatter;
+cStop.BackColor:=SzinGombHatter;
+cSpan.BackColor:=SzinGombHatter;
+cS11.HoverColor:=SzinGombZold;
+cS21.HoverColor:=SzinGombZold;
+cS11gombfrissitese;
+cS21gombfrissitese;
+
+cCalRemove.BackColor:=SzinGombHatter;
+
+cStart.HoverColor:=SzinGombZold;
+cCenter.HoverColor:=SzinGombZold;
+cStop.HoverColor:=SzinGombZold;
+cSpan.HoverColor:=SzinGombZold;
+
+cCal.HoverColor:=SzinGombZold;
+cCalRemove.HoverColor:=SzinGombPiros;
+
+se1.Color:=  SzinH;
+se1.Font.Color:= SzinGrafikon;
+ce1.Color:=  SzinH;
+ce1.Font.Color:= SzinGrafikon;
+pe1.Color:=  SzinH;
+pe1.Font.Color:= SzinGrafikon;
+ne1.Color:=  SzinH;
+ne1.Font.Color:= SzinGrafikon;
+end;
+
+procedure TForm1.GrafikonDbben(csakertekmodosult:boolean);
+const kiirttizedes=0;
+var lepes:extended;
+begin
+//AsFent: extended = 10; // 10dbm AsLent: extended = -25; // dbm
+lepes:=(AsLent - AsFent) / 10;
+db1.Caption:=floattostrf(AsFent,ffFixed,6,kiirttizedes) + ' dB';
+db2.Caption:=floattostrf(AsFent + lepes * 1,ffFixed,6,kiirttizedes) + ' dB';
+db3.Caption:=floattostrf(AsFent + lepes * 2,ffFixed,6,kiirttizedes) + ' dB';
+db4.Caption:=floattostrf(AsFent + lepes * 3,ffFixed,6,kiirttizedes) + ' dB';
+db5.Caption:=floattostrf(AsFent + lepes * 4,ffFixed,6,kiirttizedes) + ' dB';
+db6.Caption:=floattostrf(AsFent + lepes * 5,ffFixed,6,kiirttizedes) + ' dB';
+db7.Caption:=floattostrf(AsFent + lepes * 6,ffFixed,6,kiirttizedes) + ' dB';
+db8.Caption:=floattostrf(AsFent + lepes * 7,ffFixed,6,kiirttizedes) + ' dB';
+db9.Caption:=floattostrf(AsFent + lepes * 8,ffFixed,6,kiirttizedes) + ' dB';
+db10.Caption:=floattostrf(AsFent + lepes * 9,ffFixed,6,kiirttizedes) + ' dB';
+db11.Caption:=floattostrf(AsFent + lepes *10,ffFixed,6,kiirttizedes) + ' dB';
+if not csakertekmodosult then
+  begin
+  bbkvisible(false); // SWR kiiras eltunik
+  dbkfontcolor(SzinGrafikon); // sarga szin lesz bal oldalt minden.
+  end;
+end;
+
+procedure TForm1.GrafikonSWRben;
+begin
+bb1.Top:=i1.Top + 32 + 40;
+bb2.Top:=i1.Top + 32 + 200;
+bb3.Top:=i1.Top + 32 + 280;
+bb4.Top:=i1.Top + 32 + 320;
+bb5.Top:=i1.Top + 32 + 360;
+//kiirt szövegek beállítása
+bb1.Caption:='SWR 3';
+bb2.Caption:='SWR 2';
+bb3.Caption:='1,5';
+bb4.Caption:='1,25';
+bb5.Caption:='SWR 1';
+bbkvisible(true); // SWR kiiras lathatova vallik
+dbkfontcolor(SzinGombHatterS21); // piros szin lesz bal oldalt minden.
+end;
+{*******************************************************************************
+* FrekvenciaKiirasok
+*******************************************************************************}
+procedure TForm1.FormCreate(Sender: TObject);
+var i,j,fej : integer;
+ fi:textfile;
+ ConfFileOk:boolean;
+ conf, szint, ertek: string;
+ hanyfej:byte;
+ installation_failure:boolean;
+begin
+FileokUtvonala:=GetEnvironmentVariable('APPDATA') + '\AntennaMérõ\';
+// hs nem létezik a FileokUtvonala, akkor létrehozzuk és a default belekerül
+  i1Left:=i1.Left;
+  AsFent:= 10; // 20dbm
+  AsLent:= -40; // dbm
+
+//setup:=tsetup.Create(Application);
+  SzinH:=RGB(7,16,75); // kék háttér
+  SzinGrafikon:=RGB(255,237,33); // sárga grafikon, keret, beosztás
+  SzinKeret:=RGB(255,255,255); // fehér keret
+  SzinGombHatter:=RGB(214,211,206); // szurke
+  SzinGombZold:=RGB(2,167,11); // zold
+  SzinGombPiros:=RGB(237,60,52); // piros
+  SzinGombHatterS11:=RGB(255,237,33); // sárga grafikon
+  SzinGombHatterS21:=RGB(252,102,51); // piros grafikon
+  SzinGombHatterS11fako:=RGB(255,239,168); // sárga fako
+  SzinGombHatterS21fako:=RGB(255,172,149); // piros fako
+
+EgyTeljesGrafikonKirajzolva:=false;
+  logpoz:=1;
+
+HW:=Idle;
+for i:= 1 to 201 do
+  begin
+  CalS21[i]:=0;
+  CalOpen[i]:=0;
+  Vonal_in_dB_S11[i]:=0;
+  Vonal_in_dB_S21[i]:=0;
+//  RegiVonal_in_dB_S11[i]:=1;
+  end;
+CalS21b:=false;
+CalOpenb:=false;
+ResultPontSzama:=1;
+CalS21OK:=false;
+CalOpenOK:=false;
+CloseInProcess:=false;
+LogDet_Homeres:=false;
+LogDet_szintmeres:=false;
+FrqAllitasUtanSzintmeres:=false;
+
+S11show:=true;
+S21show:=true;
+S11showInSWRformat:=false;
+
+Mark1_poz:=9999;
+Mark2_poz:=9999;
+
+installation_failure:=false;
+if fileexists(FileokUtvonala+'ash.cal') then // head calibration
+  begin
+  assignfile(fi,FileokUtvonala+'ash.cal');
+  reset(fi);
+  readln(fi,conf); // hany fej van, és melyik hany pontbol all
+  hanyfej:=strtoint(GetField(conf,0,false)); // ennyi fej van összesen
+  for i:=1 to hanyfej do Head_dB_cal_pont[i]:=strtoint(GetField(conf,i,false));
+  // 1. fej 6 pontos calibracioja
+  for fej:=1 to hanyfej do
+   for i:=1 to Head_dB_cal_pont[fej] do
+    begin
+    readln(fi,conf);
+    szint:=GetField(conf,0,false);
+    ertek:=GetField(conf,1,false);
+    Head_dB_cal[fej, 1, i]:=strtofloat(szint);
+    Head_dB_cal[fej, 2, i]:=strtofloat(ertek);
+    end;
+  closefile(fi);
+  end else
+  begin
+    installation_failure:=true;
+  end;
+
+Max_SzintCal:=0;
+if fileexists(FileokUtvonala+'asszc.cal') then // szint calibration
+  begin
+  assignfile(fi,FileokUtvonala+'asszc.cal');
+  reset(fi);
+  while not eof(fi) do
+    begin
+    readln(fi,ertek); // frq-szint kalib
+    Max_SzintCal:=Max_SzintCal + 1;
+    SzintCal_da_ertekek[Max_SzintCal]:=strtoint(GetField(ertek,1,false));
+    SzintCal_frq_ertekek[Max_SzintCal]:=strtoint(GetField(ertek,0,false));
+    end;
+  closefile(fi);
+  end else
+  begin
+    installation_failure:=true;
+  end;
+
+for i:=1 to 20 do
+  begin
+  for j:=1 to 10 do
+    begin
+    HeadLogDet_dB_cal[i,j]:=99;
+    HeadLogDet_dB_szintek[i,j]:=9999;
+    end;
+  HeadLogDet_dB_frq[i]:=0;
+  end;
+
+HeadLogDet_Max_frq:=0;
+if fileexists(FileokUtvonala+'ashlog.cal') then // logdet fej frq-szint kalibracio
+  begin
+  assignfile(fi,FileokUtvonala+'ashlog.cal');
+  reset(fi);
+  while not eof(fi) do
+    begin
+    readln(fi,ertek);
+    if pos(';',ertek) = 0 then
+      begin // a sorban uj freki van
+      HeadLogDet_Max_frq:=HeadLogDet_Max_frq + 1;
+      HeadLogDet_dB_frq[HeadLogDet_Max_frq]:=strtoint(ertek);
+      i:=0;
+      end else
+      begin // szint ertek van a sorban
+      i:=i+1;
+      HeadLogDet_dB_szintek[HeadLogDet_Max_frq,i]:=strtofloat(GetField(ertek,0,false)); // a calibracio dbm/ben mert szinje ahol ervenyes az ertek
+      HeadLogDet_dB_cal[HeadLogDet_Max_frq,i]:=strtoint(GetField(ertek,1,false)); // ertek: da érték enny a kalibralt da értéke
+      end;
+    end;
+  closefile(fi);
+  end else
+  begin
+    installation_failure:=true;
+  end;
+
+lbMarkMin.Caption:=''; // nem megy a visible tiltas
+
+ValidStartFrq:=0;
+ValidCenterFrq:=0;
+ValidStopFrq:=0;
+ValidSpanFrq:=0;
+
+ConfFileOk:=ascalRead;
+
+if ConfFileOk=false then
+    begin // nincs calib
+    StartFrq:=2400;
+    CenterFrq:=2440;
+    StopFrq:=2480;
+    SpanFrq:=80;
+    BandActuall:=99;
+    cp.Port:='COM4';
+    FrqEllenorzesek(0);
+    end;
+
+if installation_failure then
+    begin
+    f := Dialogs.CreateMessageDialog('System installation failure.' + ^M + ^J + 'Please check it!' + ^M + ^J + FileokUtvonala + ' URL and files error.', dialogs.mtWarning, [dialogs.mbOK]);
+    f.Color := SzinH; // Set the backcolor to blue.
+    f.Font.Color := SzinGrafikon;
+    f.ShowModal;
+    f.free;
+    end;
+
+NextCycleSaveToFile:=false;
+
+setlength(userstyle,3); // szaggatott vonal stilusa
+userstyle[0] := 4;
+userstyle[1] := 10;
+userstyle[2] := 2;
+
+tmrKeretRajzolo.Enabled:=true; // keret es usb connect
+
+end;
+
+{*******************************************************************************
+* KalibraciosSzintKeresese
+*******************************************************************************}
+function TForm1.KalibraciosSzintKeresese(kozepfrq: word): word;
+var i,poz: word;
+begin
+poz:=0;
+for i:=1 to Max_SzintCal do
+  begin
+  if (kozepfrq < SzintCal_frq_ertekek[i]) and (poz = 0) then poz:=i;
+  end;
+if poz = 1  then
+  begin // a legkisebb frq alatt van
+  KalibraciosSzintKeresese:=SzintCal_da_ertekek[poz];
+  exit;
+  end;
+if (poz > 1) and (kozepfrq=SzintCal_frq_ertekek[poz-1]) then
+  begin // pont az egyik frekivel megegyeyik
+  KalibraciosSzintKeresese:=SzintCal_da_ertekek[poz-1];
+  exit;
+  end;
+if (kozepfrq >= SzintCal_frq_ertekek[Max_SzintCal]) then // ez a legutolso frekvencia vagy az utani
+  begin
+  KalibraciosSzintKeresese:=SzintCal_da_ertekek[Max_SzintCal];
+  exit;
+  end;
+// 2 frekvencia kozott van feluton, interpolacio az alatta es felette levo call alapjan
+KalibraciosSzintKeresese:=trunc(SzintCal_da_ertekek[poz-1] + (SzintCal_da_ertekek[poz] - SzintCal_da_ertekek[poz-1]) * ((kozepfrq - SzintCal_frq_ertekek[poz-1]) / (SzintCal_frq_ertekek[poz] - SzintCal_frq_ertekek[poz-1])));
+end;
+
+{*******************************************************************************
+* MeresInditasa
+*******************************************************************************}
+procedure TForm1.MeresInditasa;
+var p: array[1..18] of byte;
+i:integer;
+A, B, ido: integer;
+StartFrqPLL, er:word;
+Band,bb: integer;
+
+begin
+tmrFullStart.Enabled:=false;
+tmrFullStart.Interval:=TeljesFutasIdoMaxTIMEOUT;
+// automatikus vedotimer kikapcsolasa:
+// tmrFullStart.Enabled:=true; // ha nem megy vegig a meres, akkor is ujraindul
+
+if ((stopido-startido)>0) then
+  begin
+  ido:=trunc((stopido-startido)*10000000); // 2xx = 2mp
+  lbFPS.Caption:=floattostr(trunc( ((1/ido)*1000) ) /10) + ' FPS';
+  end;
+startido:=now;
+
+if S11showInSWRformat then GrafikonSWRben
+else GrafikonDBben(false);
+
+Band:=BandVisit(StartFrq); // 0,1 a low, high band. -1=invalid
+if (Band=0) or (Band=1) then
+  begin
+    if cp.Connected then
+      begin
+      bb:=222; cp.Write(bb,1); // low high band select
+      bb:=Band; cp.WriteStr(ByteToHexString(bb));// cp.Write(bb,1);
+      end;
+  end;
+if cp.Connected then
+  begin
+  // szintallitas az egész méréshez 1 db szintet választunk
+  bb:=229; cp.Write(bb,1); // szint da irasa
+  //er:=KalibraciosSzintKeresese(trunc(CenterFrq)); // megkeressuk a koyepfrekvenciahoz tartozo da erteket a cal fileban.
+  er:=KalibraciosSzintKeresese((StopFrq)); // megkeressuk a stopfrekvenciahoz tartozo da erteket a cal fileban.
+  bb:=trunc(er/16) and 255; cp.WriteStr(ByteToHexString(bb)); // high minden bit megy
+  bb:=(er * 16 ) and 240; cp.WriteStr(ByteToHexString(bb)); // low
+  end;
+
+if StartFrq < strtoint(frqValtas.Text) then
+  begin // 2000-3990 2ghz-nel
+  StepPerPoint:=trunc(SpanFrq / 20 * 2); // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  StartFrqPLL:=StartFrq;
+  end
+  else
+  begin // 4000-6000 6ghz nel
+  StepPerPoint:=trunc(SpanFrq / 20 ); // 5GHz/en // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  StartFrqPLL:=trunc(StartFrq / 2);
+  end;
+
+p[1] :=225;                                                                             // sweep parancs
+p[2] :=PointDBConst div 256; p[3]:=PointDBConst mod 256;                                                    // lekerdedések száma, pontok száma
+p[4] :=StepPerPoint div 256; p[5]:=StepPerPoint mod 256;                                                                   // step érték * 50khz     //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640 f=((PxB)+A)x32M/R=(64*781+16)*32/640=2500mhz
+p[6] :=bin2byte('11011101'); p[7] :=bin2byte('11000110'); p[ 8]:=bin2byte('10010110');  // F
+p[9] :=bin2byte('00010000'); p[10]:=bin2byte('00001010'); p[11]:=bin2byte('00000000');  // R
+A:=(StartFrqPLL*20) mod 64;
+B:=(StartFrqPLL*20) div 64;
+p[12]:=(trunc(B / 256) and bin2byte('00011111')) + bin2byte('00100000');                 //N0
+p[13]:=B and 255;                                                                        //N1
+p[14]:=A * 4 + 1; //bin2byte('01000001');                                                //N2
+//f/32*R=(64xB)+A= 2500/32*640=
+{p[12]:=bin2byte('00100011'); p[13]:=bin2byte('00001101'); p[14]:=bin2byte('01000001');  // N 2500mhz
+  //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640  f=((64xB)+A)x32.000/R=2500
+  //ha A=36 akkor f=((64xB)+A)x32.000/R=2501mhz jol szamol a proci}
+p[15]:=DelayBeetwen2Points div 256 ; p[16]:= DelayBeetwen2Points mod 256; // delay
+p[17]:=DelayFirstPoint div 256 ; p[18]:= DelayFirstPoint mod 256; // delay2
+
+varandomeresekszama:= Maxvarandomeresekszama;//2 * 199 * 2 + 2 ;//+ 2; // ennek meg kell, hogy egyezzen a pontok szamaval
+ResultPontSzama:=1; // a rajzolasnal mutatja a kovetkezo pont hanyadik helyre rajzolando
+ResultS11jott:=true;
+pb.Position:=0;
+//2500 mhz 200 lepesben:
+//>E1 00 C8 00 02 DD C6 96 10 0A 00 23 0D 41 00 01
+HW:=WaitResults;
+if cblog.Checked then logol('start ',true);
+
+if cp.Connected then
+  begin
+  cp.Write(p,1); // 1. byte az a parancs.
+  for i:=2 to 18 do cp.WriteStr(ByteToHexString(p[i])); // hexa adatok
+  end;
+//E1 30 30 43 38 30 30 31 34 44 44 43 36 39 36 31 30 30 41 30 30 32 33 30 44 34 31 30 30 30 31
+//á 00C8 0014 DDC696 100A00 230D41 0001
+if cblog.Checked then logol('ok ',false);
+end;
+
+{*******************************************************************************
+* markerszamolas minden ami egy teljes kepernyo rajzolas utan szamolodik
+*******************************************************************************}
+procedure TForm1.markerszamolas;
+var  minp, i: integer;
+min, minpontfreq:extended;
+db,s21:extended;
+minponts:string;
+bal:integer;
+begin
+if EgyTeljesGrafikonKirajzolva=false then exit;
+  min:=0;
+  minp:=0;
+  for i:=1 to 201 do
+   if Vonal_in_dB_S11[i]<min then
+    begin
+    minp:=i;
+    min:=Vonal_in_dB_S11[i];
+    end;
+  if minp=0 then minp:=1; // 0 nem lehet
+
+{  if StartFrq < strtoint(frqValtas.Text) then // 2ghz-es sáva
+    minpontfreq:=(startfrq + (StepPerPoint * (minp-1) /2 /10)) * 10
+      else // 5-6ghz es sav
+    minpontfreq:=(startfrq + (StepPerPoint * (minp-1) /10)) * 10;
+}
+//  minponts:=inttostr(trunc(minpontfreq));
+  minponts:=floattostrf(Pontszam2frq(minp),ffFixed,6,1); // 1 tizedes pontosan legyen a frq kiirva
+ // minponts:=copy(minponts,1,4) + '.' + copy(minponts,5,1);
+  db:=(Vonal_in_dB_S11[minp]);
+  S21:=Vonal_in_dB_S21[minp];
+  minimumSWRFreq:=minponts;
+  minimumSWRErtek:=floattostrf(dBtoSWR(-dB),ffFixed,6,3);
+//  lbMarkMin kinezete:
+  if ( minp - 1 ) < 132 then
+    begin
+    lbMarkMin.Caption:='^ ' + minponts +  ' MHz min.S11:' +  floattostrf(db,ffFixed,6,2)
+     + 'dB SWR ' + floattostrf(dBtoSWR(-dB),ffFixed,6,3) + ' S21:' + floattostrf(S21,ffFixed,6,2) + 'dB';
+    lbMarkMin.Left:= ((minp - 1 )* 3) + i1.Left // jobb-bal
+    end
+    else
+    begin
+    lbMarkMin.Caption:=minponts +  ' MHz min. S11:' + floattostrf(db,ffFixed,6,2)
+     + 'dB SWR ' + floattostrf(dBtoSWR(-dB),ffFixed,6,3) + ' S21:' + floattostrf(S21,ffFixed,6,2) + 'dB' + '^' ;
+    lbMarkMin.Left:= ((minp - 1 )* 3) + i1.Left - 275;// jobb-bal
+    end;
+
+// eger alatti ertek kiirasa:
+//  Eger:=(marker2x /2 /10); // eger itt van marker2x:0..200/ig vesz fel
+  minponts:=floattostrf(Pontszam2frq(trunc(marker2x + 1)),ffFixed,6,1); // 1 tizedes pontosan legyen a frq kiirva
+  db:=Vonal_in_dB_S11[trunc(marker2x + 1)];  // itt +1 volt
+  s21:=Vonal_in_dB_S21[trunc(marker2x + 1)];
+  if (marker2x - 1 ) < 100 then
+    bal:= ((marker2x - 1 )* 3) + i1Left // jobb-bal
+     else
+    bal:= ((marker2x - 1 )* 3) + i1Left - 250;// jobb-bal
+  lbMarkEger.Left:=bal;
+  lbMarkEger.Caption:=minponts +  ' MHz S11:' +  floattostrf(db,ffFixed,6,2) + 'dB SWR ' + floattostrf(dBtoSWR(-dB),ffFixed,6,3) + ' S21:' + floattostrf(S21,ffFixed,6,2) + 'dB';;
+
+ //Marker1 bal eger gomb
+  if (Mark1_poz<>9999) then
+    begin
+    db:=Vonal_in_dB_S11[trunc(Mark1_poz + 1)];  // itt +1 volt
+    s21:=Vonal_in_dB_S21[trunc(Mark1_poz + 1)];
+    lbMark1.Caption:=floattostrf(Pontszam2frq(Mark1_poz + 1),ffFixed,6,1) +  // 1 tizedes pontosan legyen a frq kiirva
+      ' MHz S11:' +  floattostrf(db,ffFixed,6,2) + 'dB SWR ' + floattostrf(dBtoSWR(-dB),ffFixed,6,3) + ' S21:' + floattostrf(S21,ffFixed,6,2) + 'dB';;
+    if lbMark1.Visible=false then lbMark1.Visible:=true;
+    end else
+    if lbMark1.Visible=true then lbMark1.Visible:=false;
+
+ //Marker2 jobb eger gomb
+  if (Mark2_poz<>9999) then
+    begin
+    db:=Vonal_in_dB_S11[trunc(Mark2_poz + 1)];  // itt +1 volt
+    s21:=Vonal_in_dB_S21[trunc(Mark2_poz + 1)];
+    lbMark2.Caption:=floattostrf(Pontszam2frq(Mark2_poz + 1),ffFixed,6,1) +  // 1 tizedes pontosan legyen a frq kiirva
+      ' MHz S11:' +  floattostrf(db,ffFixed,6,2) + 'dB SWR ' + floattostrf(dBtoSWR(-dB),ffFixed,6,3) + ' S21:' + floattostrf(S21,ffFixed,6,2) + 'dB';;
+    if lbMark2.Visible=false then lbMark2.Visible:=true;
+    end else
+    if lbMark2.Visible=true then lbMark2.Visible:=false;
+
+ end;
+{*******************************************************************************
+* dBtoSWR
+*******************************************************************************}
+function TForm1.dBtoSWR(db:extended):extended;
+var g:extended;
+begin
+try
+  if db > 0.3 then
+    begin
+    g:=power(10,(-db/20));
+    dBtoSWR:= abs((g + 1)/ (g - 1)) // http://www.rfcafe.com/references/electrical/vswr.htm
+    end
+    else dBtoSWR:= 99; // http://www.microwaves101.com/encyclopedia/calvswr.cfm
+except
+dBtoSWR:= 99;
+end;
+end;
+
+function TForm1.bin2byte(s:string):byte;
+var i: integer;
+    r:byte;
+const ih: array[0..7] of byte=(1,2,4,8,16,32,64,128);
+begin
+r:=0;
+s:=copy('0000000000',1,8-length(s)) + s;
+for i:=1 to 8 do
+  begin
+  if s[i]='1' then r:=r+ih[8 - i];
+  end;
+bin2byte:=r;
+end;
+
+{*******************************************************************************
+* cpRxChar
+*******************************************************************************}
+procedure TForm1.cpRxChar(Sender: TObject; Count: Integer);
+var
+  i :integer;
+  s, s2 :string;
+begin
+if not closeinprocess then
+  begin
+  cp.ReadStr(s,count);
+  for i:= 1 to count do
+     begin
+     if s[i]=char(170) then PortTesztEredmeny:=true; // 0xAA jott
+     if cblog.Checked then
+       begin
+       s2:=copy('000' + inttostr(varandomeresekszama), length(inttostr(varandomeresekszama)) +1 , 3);
+       logol(s2 + ':' + ByteToHexString(byte(s[i])) + ' ',false);
+       end;
+     if ProcessData(s[i]) then
+        begin
+        cbHofokClick(nil);
+        tmrMeresRestart.Enabled:=true; //  MeresInditasa(); // meres ujrainditasa
+        end;
+     end;
+  end;
+end;
+
+{*******************************************************************************
+* ProcessData
+*******************************************************************************}
+function TForm1.ProcessData(data: char):boolean;
+var Kalibralt: integer;
+calibvolt:boolean;
+temp:integer;
+Ho_fesz:extended;
+begin
+  begin // sorozatolvasasbol jott adat.
+  varandomeresekszama:= varandomeresekszama - 1;
+  if (varandomeresekszama mod 2) <> 0 then
+    ResultTemp:= byte(data) * 256 // H byte
+    else
+      begin
+      ResultTemp:=ResultTemp + byte(data); // L byte
+      if LogDet_Homeres then
+        begin
+        Ho_fesz:=(4.94/4096*ResultTemp) - 0.1;
+        cbHofok.Caption:='Hõ: ' + FloatToStrf((Ho_fesz - 0.5) * 100,ffFixed,4,2) + 'c ';// + FloatToStrf(Ho_fesz,ffFixed,4,3)+ 'v';
+        LogDet_Homeres:=false;
+        exit;
+        end;
+      if LogDet_szintmeres then
+        begin
+        edit6.text:=inttostr(resulttemp);
+        LogDet_szintmeres:=false;
+        SzintKorrekcio(nil);
+        exit;
+        end;
+
+      if ResultTemp>ResMax then ResMax:=ResultTemp;
+      if ResultTemp<ResMin then ResMin:=ResultTemp;
+      if NextCycleSaveToFile then
+        begin
+        NextCycleSaveToFile:=false;
+        rsmentes(ResultTemp);
+        end;
+      pb.Position:=trunc(ResultPontSzama / 2);
+      label18.Caption:=inttostr(strtoint(label18.Caption) +1);
+      Kalibralt:= ResultTemp;
+      if ResultS11jott then
+        begin
+        ResultS11jott:=false; // a kovetkezo az s21 lesz
+        if CalOpenb then CalOpen[ResultPontSzama]:=ad2dB_logdetbol(Kalibralt, ResultPontSzama);
+        if not(CalS21b or CalOpenb) then
+          begin
+          if CalOpenOK then
+            begin
+//            if ResultPontSzama=62 then //2472
+//              begin
+            Vonal_in_dB_S11[ResultPontSzama]:= ad2dB_logdetbol(Kalibralt, ResultPontSzama) - CalOpen[ResultPontSzama]; // db es kepernyo igazitas
+        //    Vonal_in_dB_S11[ResultPontSzama]:=10;
+//            if Vonal_in_dB_S11[ResultPontSzama]>5 then
+//                 edit12.Text:=inttostr(ResultPontSzama) + '-' + inttostr(Kalibralt)+' ' +edit12.text; // trunc(ad2dB_logdetbol(Kalibralt, ResultPontSzama)))
+            end
+            else Vonal_in_dB_S11[ResultPontSzama]:= ad2dB_logdetbol(Kalibralt, ResultPontSzama); // db es kepernyo igazitas
+          end;
+        edit1.Text:= copy((floattostrf((4.94/4095*Kalibralt),ffFixed,6,3) + 'v >' + inttostr(Kalibralt) + '        '),1,15) +
+          copy(edit1.Text,16,15);
+        end
+        else
+        begin
+        ResultS11jott:=true; // s21 jott
+        if CalS21b then
+          begin
+          CalS21[ResultPontSzama]:=ad2dB(Kalibralt, ResultPontSzama);
+          end;
+        if not(CalS21b or CalOpenb) then
+          begin
+          if CalS21OK then
+            Vonal_in_dB_S21[ResultPontSzama]:= ad2dB(Kalibralt,2) - CalS21[ResultPontSzama] // db es kepernyo igazitas 2. fej
+              else  Vonal_in_dB_S21[ResultPontSzama]:= ad2dB(Kalibralt,2); // db es kepernyo igazitas 2. fej
+          end;
+        edit1.Text:= copy(edit1.Text,1,15) + copy((floattostrf((4.94/4095*Kalibralt),ffFixed,6,3) + 'v >' + inttostr(Kalibralt) + '        '),1,15);
+        if not(CalS21b or CalOpenb) then VonalHuzas(ResultPontSzama); // vonal huzasa a Vonal_in_dB_S11[ tömb alapján
+        ResultPontSzama:=ResultPontSzama + 1;
+        end;
+      end;
+  if (varandomeresekszama=0) then
+    begin
+    calibvolt:=false;
+    if CalS21b then
+      begin
+      CalS21OK:=true;
+      CalS21b:=false;
+      calibvolt:=true;
+      cCalgombfrissitese;
+      tmrCalcsaved.Enabled:=true;
+      end;
+    if CalOpenb then
+      begin
+      CalOpenOK:=true;
+      CalOpenb:=false;
+      calibvolt:=true;
+      cCalgombfrissitese;
+      tmrcalib.Enabled:=true;
+      end;
+    stopido:=now;
+    markerszamolas();
+    if (not calibvolt) and (pos('Stop',btnStartStop.Caption) > 0) then // (btnStartStop.enabled<>false)
+      begin
+      result:=true;                                     // uj merest inditunk rogton ez utan
+      ResMax:=0;
+      ResMin:=9999;
+      EgyTeljesGrafikonKirajzolva:=true;
+      end
+      else
+        begin
+        btnStartStop.Caption:= 'Start'; // vege 1 meresnek es nincs restart
+        btnStartStop.enabled:=true;
+        tmrFullStart.Enabled:=false;
+        if FrqAllitasUtanSzintmeres then tmrSzintMeres.Enabled:=true;
+        end
+    end;
+  end;
+end;
+
+{*******************************************************************************
+* VonalHuzas
+*******************************************************************************}
+procedure TForm1.VonalHuzas(PontSzam: integer);
+  var i:integer;
+begin
+
+if cbTorol.Checked then // régi vonal törlése
+  begin   //regi vonal torlese ha kell:
+  i1.Canvas.CopyRect( Rect(1 + 3 * (PontSzam - 1),0,1 + 3 * (PontSzam), 404), i3.Canvas,
+            Rect(1 + 3 * (PontSzam - 1),0,1 + 3 * (PontSzam), 404));
+  end;
+if (Mark1_poz=PontSzam) or (Mark1_poz=PontSzam -1 )then
+  begin
+  if RajzolasEngedelyezve then
+    begin
+    lbrush.lbColor := SzinGombHatterS11;
+//penstyle, width, brush, taglogbrush, style_count, style
+    i1.canvas.Pen.Handle := ExtCreatePen(PS_GEOMETRIC or PS_USERSTYLE or PS_ENDCAP_FLAT, 2, lbrush, 3, userstyle);
+    i1.canvas.MoveTo(1 + 3 * Mark1_poz, 1);
+    i1.canvas.LineTo(1 + 3 * Mark1_poz, 400 );
+    form1.canvas.Pen.Handle := ExtCreatePen(PS_GEOMETRIC or PS_USERSTYLE or PS_ENDCAP_FLAT, 2, lbrush, 3, userstyle);
+    form1.canvas.MoveTo(50, 486);
+    form1.canvas.LineTo(82, 486);
+    end;
+  end;
+
+if (Mark2_poz=PontSzam)  or (Mark2_poz=PontSzam -1 )then
+  begin
+  if RajzolasEngedelyezve then
+    begin
+    lbrush.lbColor := SzinGombHatterS11;
+//penstyle, width, brush, taglogbrush, style_count, style
+    i1.canvas.Pen.Handle := ExtCreatePen(PS_GEOMETRIC or PS_USERSTYLE or PS_ENDCAP_FLAT, 2, lbrush, 2, userstyle);
+    i1.canvas.MoveTo(1 + 3 * Mark2_poz, 1);
+    i1.canvas.LineTo(1 + 3 * Mark2_poz, 400 );
+    form1.canvas.Pen.Handle := ExtCreatePen(PS_GEOMETRIC or PS_USERSTYLE or PS_ENDCAP_FLAT, 2, lbrush, 2, userstyle);
+    form1.canvas.MoveTo(50, 486 + 16);
+    form1.canvas.LineTo(82, 486 + 16);
+    end;
+  end;
+
+if PontSzam>=2 then
+  begin
+    with i1.canvas do  // fõvonal rajzolasa
+      begin
+      if S11show then
+        begin
+        pen.Style:=psSolid;    // psSolid, psDash, psDot, psDashDot, psDashDotDot, psClear, psInsideFrame
+        pen.Width:=3;
+        pen.Color:=SzinGombHatterS11;
+        pen.Mode:=pmCopy;   //pmBlack, pmWhite, pmNop, pmNot, pmCopy, pmNotCopy,
+                        //pmMergePenNot, pmMaskPenNot, pmMergeNotPen, pmMaskNotPen, pmMerge,
+                        //pmNotMerge, pmMask, pmNotMask, pmXor, pmNotXor http://docwiki.embarcadero.com/Libraries/XE2/en/Vcl.Graphics.TPenMode
+        if RajzolasEngedelyezve then
+          begin
+          if not S11showInSWRformat then
+            begin // S11 normal dB-ben megjelenitve
+            MoveTo(1 + 3 * (PontSzam - 1), dB2pixel(Vonal_in_dB_S11[PontSzam - 1]) );
+            LineTo(1 + 3 * PontSzam, dB2pixel(Vonal_in_dB_S11[PontSzam]) );
+            end
+              else
+            begin // S11 swr formatumban megjelenitve
+            MoveTo(1 + 3 * (PontSzam - 1), Swr2Pixel(dBtoSWR(- Vonal_in_dB_S11[PontSzam - 1])) * 4 );
+            LineTo(1 + 3 * PontSzam, Swr2Pixel(dBtoSWR(- Vonal_in_dB_S11[PontSzam])) * 4 );
+            end;
+          end;
+        end;
+      if S21show then
+        begin
+        if RajzolasEngedelyezve then
+          begin
+          pen.Style:=psSolid;    // psSolid, psDash, psDot, psDashDot, psDashDotDot, psClear, psInsideFrame
+          pen.Width:=3;
+          pen.Color:=SzinGombHatterS21;
+          pen.Mode:=pmCopy;   //pmBlack, pmWhite, pmNop, pmNot, pmCopy, pmNotCopy,
+                        //pmMergePenNot, pmMaskPenNot, pmMergeNotPen, pmMaskNotPen, pmMerge,
+                        //pmNotMerge, pmMask, pmNotMask, pmXor, pmNotXor http://docwiki.embarcadero.com/Libraries/XE2/en/Vcl.Graphics.TPenMode
+          MoveTo(1 + 3 * (PontSzam - 1), 1 + dB2pixel(Vonal_in_dB_S21[PontSzam - 1])  );
+          LineTo(1 + 3 * PontSzam, 1 + dB2pixel(Vonal_in_dB_S21[PontSzam]) );
+          end;
+        end;
+      end;
+  end;
+end;
+
+{*******************************************************************************
+* Vonal tömbbõl számolja a fizikai pixel koord-ot
+*******************************************************************************}
+function TForm1.DB2Pixel(d:extended):integer;
+var p:extended;
+begin // d az dbm érték
+//AsFent=10 AsLent=-40 között kell húzni, kimenet 0-399 közötti
+if d>AsFent then
+  begin
+  p:=0; //AsFent
+  end else
+  if d<AsLent then
+    begin
+    p:=400; //AsLent
+    end else
+  begin
+//  p:=(d-AsFent) * ((AsLent) - (AsFent)) / 6.25;
+  p:=abs((d-AsFent) / (abs(AsLent) + abs(AsFent)) *400);
+  end;
+//p:=100 - trunc((d + 25 ) * 100 /35 ); // pixel: 0-99 dbm: -25 +10
+//if p>100 then p:=100;
+DB2Pixel:=trunc(p);
+end;
+{*******************************************************************************
+* swr ertekbol a fizikai pixel koord-ot
+*******************************************************************************}
+function TForm1.Swr2Pixel(d:extended):integer;
+var s:extended;
+e:integer;
+begin
+s:=(d - 1) * 1 * 2 * 2;
+if s>10 then s:=10;
+e:=trunc(100 - (s * 10)) - 1;
+if e<>-1 then Swr2Pixel:=e
+  else Swr2Pixel:=0;
+end;
+
+{*******************************************************************************
+* da értékbõl konvertál dB -re.
+*******************************************************************************}
+//function
+//setup.cbDetType
+
+{*******************************************************************************
+* Vonal tömbbõl számolja a fizikai db-t
+* FIGYELEM!!!! NEM MUKODIK A PONTSZAM, EZ A RUTIN NEM SZAMOL A FREKVENCIAVAL!!!!
+*******************************************************************************}
+function TForm1.ad2dB(d:extended; pontszam:word):extended;
+var calp:byte;
+    ertekfelbontas: extended;
+    szintfelbontas: extended;
+    dbperlepes: extended;
+    db_cal_szint, db_cal_1_szint:extended;
+    db_cal_ertek, db_cal_1_ertek:extended;
+    vissza:Extended;
+const HeadSzam = 1;
+begin
+// 0- 4095 az ad direkt ertekebol dbm-et varazsolunk
+//case detectorType of
+//  det_hsms2855:
+//    begin
+
+calp:=1;
+while ((d < Head_dB_cal[HeadSzam, 2, calp]) and (calp <=(Head_dB_cal_pont[HeadSzam] + 1)) ) do calp:=calp + 1;
+
+db_cal_szint:=Head_dB_cal[HeadSzam, 1, calp ]; //Head_dB_cal: array[1..3, 1..2, 1..10] of extended; // 1. fej szama, 2. 1=szint 2=ertek, 3. 1-5: pont szama
+db_cal_ertek:=Head_dB_cal[HeadSzam, 2, calp ];
+
+if calp = 1 then
+  begin
+  ad2dB:=db_cal_szint; // ha az elso cal = felette van az ertek. magas dBm
+  exit;
+  end;
+
+db_cal_1_szint:=Head_dB_cal[HeadSzam, 1, calp - 1];
+db_cal_1_ertek:=Head_dB_cal[HeadSzam, 2, calp - 1];
+
+if calp = Head_dB_cal_pont[HeadSzam] + 1 then
+  begin
+  ad2dB:=db_cal_1_szint; // alatta van az erteknek. alacsony dBm
+  exit;
+  end;
+ertekfelbontas:= db_cal_1_ertek - db_cal_ertek;
+szintfelbontas:= db_cal_1_szint - db_cal_szint;
+if ertekfelbontas=0 then
+  begin
+  ad2dB:=db_cal_szint; // db_cal_ertek; // ez hibas????
+  exit;
+  end;
+dBperlepes:= szintfelbontas / ertekfelbontas;
+vissza:=db_cal_1_szint + dBperlepes * (d - db_cal_1_ertek); // köztes ertek
+ad2dB:=vissza;
+end;
+
+{*******************************************************************************
+* cal alomanybol szamolja ki, a da ertek pontosan mennyi dbm, figyelembe veve a frq kepernyo pontszamat
+* hivja a Pontszam2frq, HeadLogDet_db_kereses rutinokat
+* 0 - 4095 az ad direkt ertekebol dbm-et varazsolunk
+*******************************************************************************}
+function TForm1.ad2dB_logdetbol(ad_ertek:word; pontszam:word):extended;
+var     PontFrekije: extended;
+ i,poz: integer;
+alapertek,adtavol,resztav,teljestav,szazalek,kiegeszites,vissza: extended;
+HeadLogDet_db_poz, HeadLogDet_db_poz_m1 : extended;
+begin // ha ad: 1632 hibazik!!! freki fuggetlen
+PontFrekije:=Pontszam2frq(pontszam); // pontszam: 1..201
+
+poz:=0;
+i:=1; // megkeressuk a mostani frq hol van a kalib tablaban
+repeat // for i:=1 to HeadLogDet_Max_frq do helyett
+  if ((PontFrekije) <= HeadLogDet_dB_frq[i]) and (poz = 0) then
+    begin
+    poz:=i; //i:=HeadLogDet_Max_frq; end;
+    i:=HeadLogDet_Max_frq;
+    end;
+i:=i+1;
+until i>HeadLogDet_Max_frq;// poz tartalmazza, hol van a frekvencia.
+
+if (poz = 1) or ((PontFrekije = HeadLogDet_dB_frq[poz]))  then
+  begin // a legkisebb frq alatt van vagy pontos frekin van
+
+  ad2dB_logdetbol:=HeadLogDet_db_kereses(poz, ad_ertek); // 1. a freki amin vagyunk hanyadik poz-on van, 2. ad ertek amit beolvastunk
+  exit;
+  end;
+
+HeadLogDet_db_poz:=HeadLogDet_db_kereses(poz, ad_ertek);
+HeadLogDet_db_poz_m1:=HeadLogDet_db_kereses(poz-1, ad_ertek);
+
+if PontFrekije = HeadLogDet_dB_frq[poz + 1]  then
+  begin // a legkisebb frq alatt van vagy pontos frekin van
+  ad2dB_logdetbol:=HeadLogDet_db_poz; // 1. a freki amin vagyunk hanyadik poz-on van, 2. ad ertek amit beolvastunk
+  exit;
+  end;
+
+if (PontFrekije >= HeadLogDet_dB_frq[HeadLogDet_Max_frq]) then
+  begin // ez a legutolso frekvencia utani
+  i:=10; while HeadLogDet_dB_frq[i]=0 do i:=i - 1; // megkeresi, mi a legnagyobb frekvencia ertek pozicioja
+  ad2dB_logdetbol:=  HeadLogDet_db_kereses(i, ad_ertek);
+  exit;
+  end;
+
+// 2 frekvencia kozott van feluton, interpolacio az alatta es felette levo call alapjan
+// hibazas: poz=2 ad=1632 pontfrekije=2484,4
+
+alapertek:= HeadLogDet_db_poz_m1;
+adtavol:= HeadLogDet_db_poz;
+adtavol:=adtavol - HeadLogDet_db_poz_m1;
+resztav:=PontFrekije - HeadLogDet_dB_frq[poz - 1];
+teljestav:=HeadLogDet_dB_frq[poz] - HeadLogDet_dB_frq[poz - 1];
+szazalek:= resztav / teljestav;
+kiegeszites:=adtavol * szazalek;
+vissza:= alapertek + kiegeszites;
+{
+//if (vissza>100)  then // ad_ertek=290 298 296 294 293 295 297 292 291
+begin
+edit16.Text:=floattostr(HeadLogDet_db_kereses(poz-1, ad_ertek));
+edit17.Text:=floattostr(HeadLogDet_db_kereses(poz, ad_ertek-1)); // ez ad vissza 0-t!!!
+//edit18.Text:=floattostr(HeadLogDet_db_kereses(poz-1, ad_ertek));
+edit19.Text:=floattostr(PontFrekije);
+edit20.Text:=floattostr(HeadLogDet_dB_frq[poz - 1]);
+edit21.Text:=floattostr(HeadLogDet_dB_frq[poz]);
+edit22.Text:=floattostr(HeadLogDet_dB_frq[poz - 1]);
+edit23.Text:=floattostr(vissza);
+end;
+}
+ad2dB_logdetbol:=vissza;
+
+{ // erintett valtozok:
+  HeadLogDet_Max_frq: byte;
+  HeadLogDet_dB_frq: array[1..20] of word; // A frekvencia ertekek
+  HeadLogDet_dB_szintek: array[1..20, 1..10] of extended; // 1. a kalibracio frekvenciáí, 2. szint sorszama, ertek: szint db-ben
+  HeadLogDet_dB_cal: array[1..20, 1..10] of word; // 1. a kalibracio frekvenciáí, 2. szintek, ertek: da érték }
+end;
+
+{*******************************************************************************
+* dbm érték keresése ad értékbõl, egy frekvencian
+* hivja a semmit. csak tombokbol dolgozik
+*******************************************************************************}
+function TForm1.HeadLogDet_db_kereses(frqpoz: word; ad_amit_beolvastunk:word):extended;
+//procedure TForm1.HeadLogDet_db_kereses(frqpoz: word; ad_amit_beolvastunk:word);
+var poz,i:byte;
+eredmeny:extended;
+alap,dbtav,db1tav,db2tav,dboszto:extended;
+fi:textfile;
+begin
+//1632-nel ez a hiba oka, frqpoz=2, ad_amit_beolvastunk=1632
+//kitesztelve az egesz hibas a pontos frq
+{if frqpoz=8 then
+ edit24.Text:='akad';
+ }
+poz:=0;
+for i:=10 downto 1 do // megkeressuk a mostani db hol van a kalib tablaban  forditott sorrendben vannak a szamok
+  if (ad_amit_beolvastunk <= HeadLogDet_dB_cal[frqpoz, i]) and (poz = 0) and (HeadLogDet_dB_cal[frqpoz, i] <> 99) then //****
+    poz:=i;
+// poz tartalmazza, hol van a ad ertek a kalibraciok kozott.
+
+if (poz = 0) or ( (ad_amit_beolvastunk = HeadLogDet_dB_cal[frqpoz, poz]) )  then
+  begin // a legkisebb ertek, vagy pontosan a c erteken van
+//  edit16.Text:='';
+  if poz=0 then poz:=1;
+  eredmeny:=HeadLogDet_dB_szintek[frqpoz, poz]; // ha alatta van, legyen a legkisebb érték fixen
+  HeadLogDet_db_kereses:=eredmeny;
+  exit;
+  end;
+
+i:=10; while HeadLogDet_dB_cal[frqpoz, i] = 99 do i:=i - 1; // megkeresi, mi a legnagyobb kalib-ad ertek pozicioját
+if (ad_amit_beolvastunk <= HeadLogDet_dB_cal[frqpoz, i]) then
+  begin // ha az utolso c ertek, vagy az utani/ dbm.nel kisebb ertek
+  eredmeny:=HeadLogDet_dB_szintek[frqpoz, i];
+  HeadLogDet_db_kereses:=eredmeny;
+  exit;
+  end;
+
+  // 2 dbm kozott van feluton, interpolacio az alatta es felette levo call alapjan
+//edit25.Text:='utolso jo: frq '+inttostr(frqpoz) + ' ad:' + inttostr(ad_amit_beolvastunk);
+
+//if poz>5 then
+//edit16.Text:=floattostr(frqpoz);
+
+{edit16.Text:=floattostr(frqpoz);
+edit17.Text:=floattostr(poz);
+edit18.Text:=floattostr(HeadLogDet_dB_szintek[frqpoz, poz + 1]);
+}
+
+{
+assignfile(fi,'as.debug.txt');
+append(fi);
+writeln(fi,'utolso jo: frq '+inttostr(frqpoz) + ' ad:' + inttostr(ad_amit_beolvastunk));
+closefile(fi);
+}
+alap:=HeadLogDet_dB_szintek[frqpoz, poz ];
+  dbtav:=HeadLogDet_dB_szintek[frqpoz, poz + 1] - HeadLogDet_dB_szintek[frqpoz, poz ];
+  db2tav:=HeadLogDet_dB_cal[frqpoz, poz + 1] -  HeadLogDet_dB_cal[frqpoz, poz ];
+{if poz<>10 then //nincs 11.edik kalibracio
+  begin
+  end
+    else
+  begin
+  dbtav:=0;
+  db2tav:=1;
+  end;
+}
+db1tav:=ad_amit_beolvastunk -  HeadLogDet_dB_cal[frqpoz, poz ];
+dboszto:=db1tav / db2tav;
+eredmeny:= alap + (dbtav * dboszto);
+{
+edit25.Text:=floattostr(alap);
+edit26.Text:=floattostr(dbtav);
+edit27.Text:=floattostr(db1tav);
+edit28.Text:=floattostr(db2tav);
+edit29.Text:=floattostr(dboszto);
+edit30.Text:=floattostr(eredmeny);
+}
+HeadLogDet_db_kereses:=eredmeny;
+{erintett valtozok:
+  HeadLogDet_dB_cal[frqpoz,
+  HeadLogDet_Max_frq: byte;
+  HeadLogDet_dB_frq: array[1..20] of word; // A frekvencia ertekek
+  HeadLogDet_dB_szintek: array[1..20, 1..10] of extended; // 1. a kalibracio frekvenciáí, 2. szint sorszama, ertek: szint db-ben
+  HeadLogDet_dB_cal: array[1..20, 1..10] of word; // 1. a kalibracio frekvenciáí, 2. szintek, ertek: da érték }
+end;
+
+
+{*******************************************************************************
+* Pontszam2frq a kepernyon levo pontszambol visszaszamolja a frekvenciat
+*******************************************************************************}
+function TForm1.Pontszam2frq(pontszam:word):extended;
+begin
+if StartFrq < strtoint(frqValtas.Text) then
+  begin // 2000-3990 2ghz-nel
+  StepPerPoint:=trunc(SpanFrq / 20 * 2); // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  Pontszam2frq:=(StartFrq + (StepPerPoint * (pontszam - 1) /2  /10 ));
+  end
+  else
+  begin // 4000-6000 6ghz nel
+  StepPerPoint:=trunc(SpanFrq / 20 ); // 5GHz/en // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  Pontszam2frq:=(StartFrq + (StepPerPoint * (pontszam - 1) /10 ));
+  end;
+end;
+
+{*******************************************************************************
+* form-close
+*******************************************************************************}
+procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+if cblog.Checked then logkiirasdiskre;
+end;
+
+procedure TForm1.btnStartStop1Click(Sender: TObject);
+begin
+if btnStartStop.Caption= 'Start' then
+  begin // start
+  btnStartStop.Caption:= 'Stop';
+  btnStartStopBackColor:=SzinGombZold;
+  btnStartStop.HoverColor:=SzinGombPiros;
+  MeresInditasa();
+  end else
+  begin //
+  btnStartStop.Caption:= 'S t o p';
+  btnStartStop.Enabled:=false;
+  btnStartStopBackColor:=SzinGombHatter;
+  btnStartStop.HoverColor:=SzinGombZold;
+  timer2.Enabled:=true;
+  end;
+end;
+
+procedure TForm1.Timer2Timer(Sender: TObject);
+begin
+ if  btnStartStop.Enabled=false then
+   begin
+   btnStartStopBackColor:=SzinGombHatter;
+   btnStartStop.HoverColor:=SzinGombZold;
+
+//   btnStartStop.Font.Color:=SzinGrafikon;
+   btnStartStop.Caption:= 'Start';
+   btnStartStop.Enabled:=true;
+   end;
+ timer2.Enabled:=false;
+end;
+
+procedure TForm1.tmrMeresRestartTimer(Sender: TObject);
+begin
+  tmrMeresRestart.Enabled:=false;
+  tmrMeresRestart.Interval:=TeljesMeresRestartTIMEOUT;
+  MeresInditasa;
+end;
+
+procedure TForm1.tmrFullStartTimer(Sender: TObject);
+begin
+tmrFullStart.Enabled:=false;
+MeresInditasa;
+end;
+
+procedure TForm1.i1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+if EgyTeljesGrafikonKirajzolva and (lbMarkEger.Visible=false) then
+  lbMarkEger.Visible:=true;
+
+marker2x:=trunc(x/3);
+lbMarkEger.top:= y + i1.top - 18; // jobb-bal
+if oldmarker2x<>marker2x then // csak azért, hogy kevesebb számolás legyen benne
+  begin
+  markerszamolas;
+  oldmarker2x:=marker2x;
+  end;
+end;
+
+procedure TForm1.I2MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+//visszajott az eger a fõromra
+if lbMarkEger.Visible=true then lbMarkEger.Visible:=false; // mozgo marker törlése
+if lbConnStatus.Visible=true then lbConnStatus.Visible:=false;
+if btnStartStop.BackColor <> btnStartStopBackColor then
+  begin
+  btnStartStop.BackColor:=btnStartStopBackColor;
+  end;
+if cCal.BackColor <> cCalBackColor then
+  begin
+  cCal.BackColor:=cCalBackColor;
+  end;
+if cS11.BackColor <> cS11BackColor then
+  begin
+  cS11.BackColor:=cS11BackColor;
+  end;
+if cS21.BackColor <> cS21BackColor then
+  begin
+  cS21.BackColor:=cS21BackColor;
+  end;
+end;
+
+procedure TForm1.tmrcalibTimer(Sender: TObject);
+var f:Tform;
+  rt:integer;
+begin
+  tmrcalib.Enabled:=false;
+  f := Dialogs.CreateMessageDialog('Please short connect S1 and S2 inputs!', dialogs.mtConfirmation, dialogs.mbOKCancel);
+  f.Color := SzinH; // Set the backcolor to blue.
+  f.Font.Color := SzinGrafikon;
+  rt:=f.ShowModal;
+  f.free;
+
+  if  rt = mrOk then
+    begin
+    CalS21b:=true;
+    MeresInditasa();
+    end else
+    begin
+    f := Dialogs.CreateMessageDialog('Calibration cancelled.', dialogs.mtWarning, [dialogs.mbOK]);
+    f.Color := SzinH; // Set the backcolor to blue.
+    f.Font.Color := SzinGrafikon;
+    f.ShowModal;
+    f.free;
+    end;
+end;
+
+procedure TForm1.tmrCalcSavedTimer(Sender: TObject);
+var
+  fi:textfile;
+  i:integer;
+  ertek:string;
+begin
+  tmrCalcSaved.Enabled:=false;
+  assignfile(fi,FileokUtvonala+'as.cal');
+  rewrite(fi);
+  writeln(fi,StartFrq);
+  writeln(fi,CenterFrq);
+  writeln(fi,StopFrq);
+  writeln(fi,SpanFrq);
+//  writeln(fi,cp.Port);
+
+  for i:=1 to 201 do
+    begin
+    writeln(fi,FloatToStrf(CalS21[i],ffFixed,6,3));
+    writeln(fi,FloatToStrf(CalOpen[i],ffFixed,6,3));
+    end;
+
+  if S11show then ertek:='1' else ertek:='0';
+  writeln(fi,ertek);
+  if S21show then ertek:='1' else ertek:='0';
+  writeln(fi,ertek);
+  if S11showInSWRformat then ertek:='1' else ertek:='0';
+  writeln(fi,ertek);
+  closefile(fi);
+  ValidStartFrq:=StartFrq;;
+  ValidCenterFrq:=CenterFrq;
+  ValidStopFrq:=StopFrq;
+  ValidSpanFrq:=SpanFrq;
+
+  f := Dialogs.CreateMessageDialog('All calibration data saved.', dialogs.mtWarning, [dialogs.mbOK]);
+  f.Color := SzinH; // Set the backcolor to blue.
+  f.Font.Color := SzinGrafikon;
+  f.ShowModal;
+  f.free;
+  cCalgombfrissitese;
+end;
+
+procedure TForm1.cStartClick(Sender: TObject);
+begin
+se1.EditText:=inttostr(StartFrq);
+se1.Visible:=true;
+se1.SetFocus;
+end;
+
+procedure TForm1.cCenterClick(Sender: TObject);
+begin
+//if CenterFrq * 10 <> trunc (CenterFrq * 10) then
+//  ce1.EditText:=inttostr(trunc(CenterFrq)) + '.' + inttostr(trunc(CenterFrq * 10) mod 10) + ' MHz'
+//    else
+ce1.EditText:=inttostr(trunc(CenterFrq)); // nincs lekezelve a tizedes bevitele
+ce1.Visible:=true;
+ce1.SetFocus;
+end;
+
+procedure TForm1.cStopClick(Sender: TObject);
+begin
+pe1.EditText:=inttostr(StopFrq);
+pe1.Visible:=true;
+pe1.SetFocus;
+end;
+
+procedure TForm1.cSpanClick(Sender: TObject);
+begin
+ne1.EditText:= copy('    '+ inttostr(SpanFrq),length(inttostr(SpanFrq))+1 ,4);
+ne1.Visible:=true;
+ne1.SetFocus;
+end;
+
+{******************************************************************************
+* RemoveSpace
+******************************************************************************}
+function TForm1.RemoveSpace(s2 :string):string;
+var s:string;
+begin
+s:=s2;
+while (pos(' ',s) = 1) do
+  delete(s,1,1);
+while ((length(s) > 1) and (s[length(s)] = ' ')) do
+  delete(s,length(s),1);
+RemoveSpace:=s;
+end;
+
+function TForm1.MinFrqBand(band: boolean):integer;
+begin
+if band=false then MinFrqBand:=(strtoint(MINFRQ.Text)) // 2000
+  else MinFrqBand:=(strtoint(frqValtas.Text)); // 4000
+end;
+
+function TForm1.MaxFrqBand(band: boolean):integer;
+begin
+if band=false then MaxFrqBand:=(strtoint(frqValtas.Text) - strtoint(MINSPAN.Text) ) // 3980
+  else MaxFrqBand:=strtoint(MAXFRQ.Text);
+end;
+
+function TForm1.BandVisit(Frq:integer): integer;
+var r: integer;
+begin
+r:=-1;
+if (Frq >= MinFrqBand(false)) and (Frq <= MaxFrqBand(false)) then r:=0 else // also band
+  begin
+  if (Frq >= MinFrqBand(true)) and (Frq <= MaxFrqBand(true)) then r:=1; // felso band
+  end;
+BandVisit:=r;
+end;
+
+// A frq beirasok gombnyomasai
+procedure TForm1.se1KeyPress(Sender: TObject; var Key: Char); // START
+begin
+if key=#13 then
+  begin
+  try
+  StartFrq:=strtoint(copy(se1.editText,1,4));
+  except
+  end;
+  FrqEllenorzesek(1);
+  se1.Visible:=false;
+  end;
+if key=#27 then se1.Visible:=false;
+end;
+
+procedure TForm1.ce1KeyPress(Sender: TObject; var Key: Char); // CENTER
+begin
+if key=#13 then
+  begin
+  try
+  CenterFrq:=strtoint(copy(ce1.editText,1,4));
+  except
+  end;
+  FrqEllenorzesek(2);
+  ce1.Visible:=false;
+  end;
+if key=#27 then ce1.Visible:=false;
+end;
+
+procedure TForm1.pe1KeyPress(Sender: TObject; var Key: Char); // STOP
+begin
+if key=#13 then
+  begin
+  try
+  StopFrq:=strtoint(copy(pe1.editText,1,4));
+  except
+  end;
+  FrqEllenorzesek(3);
+  pe1.Visible:=false;
+  end;
+if key=#27 then pe1.Visible:=false;
+end;
+
+procedure TForm1.ne1KeyPress(Sender: TObject; var Key: Char);
+
+begin
+if key=#13 then
+  begin
+  try
+  SpanFrq:=strtoint(removespace( copy(ne1.editText,1,4) ) );
+  except
+  end;
+  FrqEllenorzesek(4);
+  ne1.Visible:=false;
+  end;
+if key=#27 then ne1.Visible:=false;
+end;
+
+procedure TForm1.se1Exit(Sender: TObject);
+begin
+se1.Visible:=false;
+end;
+
+procedure TForm1.ce1Exit(Sender: TObject);
+begin
+ce1.Visible:=false;
+end;
+
+procedure TForm1.pe1Exit(Sender: TObject);
+begin
+pe1.Visible:=false;
+end;
+
+procedure TForm1.ne1Exit(Sender: TObject);
+begin
+ne1.Visible:=false;
+end;
+
+procedure TForm1.FrqEllenorzesek(MiValtozott: byte);
+var startband,stopband:byte;
+begin
+Case MiValtozott of
+ 0: // csak javitas
+   begin
+   end;
+ 1: // start
+  begin
+  if StartFrq < (strtoint(MINFRQ.Text) ) then
+    begin
+    StartFrq:=strtoint(MINFRQ.Text);
+    end;
+  if StartFrq > (strtoint(MAXFRQ.Text) - strtoint(MINSPAN.Text)) then
+    begin
+    StartFrq:=strtoint(MAXFRQ.Text) - strtoint(MINSPAN.Text);
+    end;
+  if (StartFrq + strtoint(MINSPAN.Text)) > StopFrq then
+    begin
+    StopFrq:= StartFrq + strtoint(MINSPAN.Text);
+    end;
+  SpanFrq:=(StopFrq - StartFrq);
+  if SpanFrq < strtoint(MINSPAN.Text) then SpanFrq:=strtoint(MINSPAN.Text);
+  while ((SpanFrq / strtoint(SPANLEPES.Text)) <> trunc(SpanFrq / strtoint(SPANLEPES.Text)))  do // span felkerekitese
+    SpanFrq:=SpanFrq + 1;
+  if SpanFrq > strtoint(MAXSPAN.Text) then SpanFrq:=strtoint(MAXSPAN.Text);
+  if StartFrq + SpanFrq > strtoint(MAXFRQ.Text) then
+//   while ((SpanFrq / 20) <> trunc(SpanFrq / 20))  do // span visszalepes
+      SpanFrq:=SpanFrq - strtoint(SPANLEPES.Text);
+  StopFrq:=StartFrq + SpanFrq;
+  CenterFrq:=(StartFrq + trunc((StopFrq - StartFrq) /2));
+  end;
+ 2: // center
+  begin
+  if CenterFrq < (strtoint(MINFRQ.Text) + trunc(strtoint(MINSPAN.Text)/2)) then
+    begin
+    SpanFrq:=strtoint(MINSPAN.Text);
+    CenterFrq:=strtoint(MINFRQ.Text) + SpanFrq;
+    end;
+  if CenterFrq > (strtoint(MAXFRQ.Text) - trunc(strtoint(MINSPAN.Text)/2)) then
+    begin
+    SpanFrq:=strtoint(MINSPAN.Text);
+    CenterFrq:=strtoint(MAXFRQ.Text) - SpanFrq;
+    end;
+  StartFrq:=trunc(CenterFrq) - trunc(SpanFrq/2);
+  StopFrq:=trunc(CenterFrq) + trunc(SpanFrq/2);
+  end;
+ 3: // stop
+  begin
+  if StopFrq < (strtoint(MINFRQ.Text) + strtoint(MINSPAN.Text)) then
+    begin
+    StopFrq:=strtoint(MINFRQ.Text) + strtoint(MINSPAN.Text);
+    end;
+  if StopFrq > (strtoint(MAXFRQ.Text)) then
+    begin
+    StopFrq:=strtoint(MAXFRQ.Text);
+    end;
+  if (StartFrq + strtoint(MINSPAN.Text)) > StopFrq then // a stop a (start+minspan) nal lentebb van
+    begin
+    StartFrq:= StopFrq - strtoint(MINSPAN.Text);
+    end;
+  SpanFrq:=(StopFrq - StartFrq);
+  if SpanFrq < strtoint(MINSPAN.Text) then SpanFrq:=strtoint(MINSPAN.Text);
+  while ((SpanFrq / strtoint(SPANLEPES.Text)) <> trunc(SpanFrq / strtoint(SPANLEPES.Text)))  do // span felkerekitese
+    SpanFrq:=SpanFrq + 1;
+  if SpanFrq > strtoint(MAXSPAN.Text) then SpanFrq:=strtoint(MAXSPAN.Text);
+  StartFrq:=StopFrq - SpanFrq;
+  CenterFrq:=(StartFrq + trunc((StopFrq - StartFrq) /2));
+  end;
+ 4: // span
+   begin
+   if SpanFrq < strtoint(MINSPAN.Text) Then SpanFrq:=strtoint(MINSPAN.Text);
+   if SpanFrq > strtoint(MAXSPAN.Text) Then SpanFrq:=strtoint(MAXSPAN.Text);
+   while ((SpanFrq / strtoint(SPANLEPES.Text)) <> trunc(SpanFrq / strtoint(SPANLEPES.Text)))  do // span felkerekitese
+     SpanFrq:=SpanFrq + 1;
+   while ( (CenterFrq + (SpanFrq / 2) ) > strtoint(MAXFRQ.Text)) and (SpanFrq > strtoint(MINSPAN.Text)) do
+     begin // vissza kell lepni a span-ben kisebb lepesre
+     SpanFrq:=SpanFrq - strtoint(SPANLEPES.Text);
+     end;
+   while ( (CenterFrq - (SpanFrq / 2) ) < strtoint(MINFRQ.Text) ) and (SpanFrq > strtoint(MINSPAN.Text)) do
+     begin // le kell lepni ha
+     SpanFrq:=SpanFrq - strtoint(SPANLEPES.Text);
+     end;
+   StartFrq:=Trunc(CenterFrq) - Trunc(SpanFrq / 2);
+   StopFrq:=Trunc(CenterFrq) + Trunc(SpanFrq / 2);
+   end;
+End;
+// 3900 átlépése, a stop az egyik savban, a start a masik savban van
+if StopFrq <= strtoint(frqValtas.Text) then stopband:=1 else stopband:=2; // 1- low band, 2 high band
+if StartFrq < strtoint(frqValtas.Text) then startband:=1 else startband:=2; // 1- low band, 2 high band
+if Startband<>Stopband then // sav valtas tortent, ezert korrigalni kell.
+    begin
+    if MiValtozott=3 then // ebben az esetben a stop frq-t irtak at, ezért követni kell a stop-ot
+      begin
+      StartFrq:=strtoint(frqValtas.Text);
+      if (StartFrq + strtoint(MINSPAN.Text)) > StopFrq then
+        begin
+        StopFrq:=StartFrq + strtoint(MINSPAN.Text);
+        end;
+      FrqEllenorzesek(1);
+      exit;
+      end;
+    // minden más esetben a start frq-t irtak at
+    if (StartFrq + strtoint(MINSPAN.Text)) < strtoint(frqValtas.Text) then // a start modosult, de a stop nem fer bele a savba ezert
+      begin // start belefer az also savba
+      if (StartFrq + SpanFrq) <= strtoint(frqValtas.Text) then
+        begin // belefer a mostani span is az also savba
+        StopFrq:=StartFrq + SpanFrq;
+        FrqEllenorzesek(3);
+        exit;
+        end else
+        begin // span es stop /ot is kell modositani
+        StopFrq:=StartFrq + strtoint(MINSPAN.Text);
+        SpanFrq:=strtoint(MINSPAN.Text);
+        FrqEllenorzesek(3);
+        exit;
+        end;
+      end else
+      begin // start also savban de nem fer bele
+      StartFrq:=strtoint(frqValtas.Text) - strtoint(MINSPAN.Text);
+      SpanFrq:=strtoint(MINSPAN.Text);
+      StopFrq:=StartFrq + SpanFrq;
+      FrqEllenorzesek(1);
+      exit;
+      end;
+    end;
+
+//if (StartFrq StartFrq + strtoint(MINSPAN.Text)) <= strtoint(frqValtas.Text) then ujband:=1 else ujband:=2; // 1- low band, 2 high band + strtoint(MINSPAN.Text)
+
+// minden gomb frissitese                      int64
+cStart.Caption:='Start ' +inttostr(StartFrq) + ' MHz';
+if CenterFrq * 10 <> trunc (CenterFrq * 10) then
+  cCenter.Caption:='Center ' +inttostr(trunc(CenterFrq)) + '.' + inttostr(trunc(CenterFrq * 10) mod 10) + ' MHz'
+    else
+  cCenter.Caption:='Center ' +inttostr(trunc(CenterFrq))  + ' MHz';
+cStop.Caption:='Stop ' +inttostr(StopFrq) + ' MHz';
+cSpan.Caption:='Span ' +inttostr(SpanFrq) + ' MHz';
+
+fr1.Caption:=inttostr(StartFrq) + 'MHz';
+fr2.Caption:=inttostr(trunc(StartFrq + (SpanFrq) /5)) + 'MHz';
+fr3.Caption:=inttostr(trunc(StartFrq + (SpanFrq) /5 * 2)) + 'MHz';
+fr4.Caption:=inttostr(trunc(StartFrq + (SpanFrq) /5 * 3)) + 'MHz';
+fr5.Caption:=inttostr(trunc(StartFrq + (SpanFrq) /5 * 4)) + 'MHz';
+fr6.Caption:=inttostr(trunc(StartFrq + (SpanFrq) /5 * 5)) + 'MHz';
+
+if not((ValidStartFrq=StartFrq) and (ValidCenterFrq=CenterFrq) and (ValidStopFrq=StopFrq) and (ValidSpanFrq=SpanFrq)) and
+  (CalOpenOK and CalS21OK) then
+  begin // frekvencia valtozas miatt invalidda kell tenni az user cal/t.
+  CalOpenOK:=false;
+  CalS21OK:=false;
+  cCalgombfrissitese;
+  end;
+if ((ValidStartFrq=StartFrq) and (ValidCenterFrq=CenterFrq) and (ValidStopFrq=StopFrq) and (ValidSpanFrq=SpanFrq)) and
+  (CalOpenOK=false) and (CalS21OK=false) then
+  begin // frekvencia azonos cal visszakapcsolasa
+  CalOpenOK:=true;
+  CalS21OK:=true;
+  cCalgombfrissitese;
+  end;
+markerszamolas;
+end;
+
+procedure TForm1.btnConnectClick(Sender: TObject);
+var i:integer;
+begin
+Connect.Visible:=false; NotConnect.Visible:=true; lbConnStatus.Caption:='Detecting hardware.';
+comcombobox1.ComProperty:=cpPort; // ez felolvassa a lehetseges portokat
+ComPortsDb:=comcombobox1.items.Count;
+for i:=0 to comcombobox1.items.Count -1 do
+  begin
+  ComPorts[i + 1]:= comcombobox1.Items[i] ; // a leteyo com portok nevei
+  end;
+if ComPortsDb>0 then
+  begin // elindul a teszteles
+  cp.BaudRate:=br115200;
+  cp.Buffer.InputSize:=1024;
+  cp.Buffer.OutputSize:=1024;
+  cp.DataBits:=dbEight;
+  cp.DiscardNull:=false;
+  cp.FlowControl.ControlDTR:=dtrDisable;
+  cp.FlowControl.ControlRTS:=rtsDisable;
+  cp.Parity.Bits:=prNone;
+  ComTestnr:=0;
+  ComTestState:=C_Open;
+  tmrComtest.Enabled:=true;
+  btnConnect.Enabled:=false;
+  end else
+  begin
+  NoHardwareAlert;
+  end;
+end;
+
+procedure TForm1.NoHardwareAlert;
+begin
+  Connect.Visible:=false; NotConnect.Visible:=true;   btnConnect.Enabled:=true; lbConnStatus.Caption:='Not connected. Please click to reconnect.'; btnConnect.Caption:='Connect';
+    f := Dialogs.CreateMessageDialog('Antenna Meassure hardware not found.' + ^M + ^J +
+      'Please connect the hardware to USB port, and switch on.' + ^M + ^J +
+      'When ready, please click on red connect icon in left bottom corner.'
+      , dialogs.mtWarning, [dialogs.mbOK]);
+    f.Color := SzinH;
+    f.Font.Color := SzinGrafikon;
+    f.ShowModal;
+    f.free;
+end;
+
+procedure TForm1.tmrComtestTimer(Sender: TObject);
+var p:byte;
+begin
+case ComTestState of
+//  C_Idle: break;
+  C_Open: begin
+          ComTestnr:=ComTestnr + 1;
+          if ComTestnr > ComPortsDb then
+            begin // nincs tobb soros port
+            tmrComtest.Enabled:=false;
+            try
+            cp.Close;
+            except
+            end;
+            NoHardwareAlert;
+            exit;
+            end;
+          try
+          cp.Close;
+          except
+          end;
+          cp.Port:=ComPorts[ComTestnr];
+          try
+          cp.Open;
+//          btnConnect.Caption:=ComPorts[ComTestnr] + ' o';
+          except
+          end;
+          ComTestState:=C_SendTestQuestion;
+          end;
+  C_SendTestQuestion:
+          begin
+          PortTesztEredmeny:=false;
+          if cp.Connected then
+            begin
+            p:=223; cp.Write(p,1); // PORT TESZTELES
+            p:=223; cp.Write(p,1); // PORT TESZTELES
+            end;
+          ComTestState:=C_TestResult;
+          end;
+  C_TestResult: // nezzuk valaszol -e a hw.
+          begin
+          if PortTesztEredmeny then
+            begin
+            tmrComtest.Enabled:=false;
+//            btnConnect.Caption:=ComPorts[ComTestnr] + ' c';
+            Connect.Visible:=true; NotConnect.Visible:=false; btnConnect.Enabled:=true; btnConnect.Caption:='Connected'; lbConnStatus.Caption:='Connected to ' + cp.Port;
+      //    showmessage('Antennascope found. ' + cp.Port);
+            exit;
+            end else
+            begin // nem jött válasz, új port próbálása
+            ComTestState:=C_Open;
+            end;
+          end;
+  else begin end;
+  end; // case
+end;
+
+procedure TForm1.ConnectClick(Sender: TObject);
+begin
+btnConnectClick(nil);
+end;
+
+procedure TForm1.NotConnectClick(Sender: TObject);
+begin
+btnConnectClick(nil);
+end;
+
+procedure TForm1.ConnectMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+lbConnStatus.Visible:=true;
+lbConnStatus.top:= Y + Connect.Top;
+lbConnStatus.Left:= X + Connect.Left +30;
+end;
+
+procedure TForm1.NotConnectMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+begin
+lbConnStatus.Visible:=true;
+lbConnStatus.top:= Y + Connect.Top;
+lbConnStatus.Left:= X + Connect.Left +30;
+end;
+
+procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+if Key = ^S then
+    if GetKeyState(VK_SHIFT)<0 then
+    begin
+    setups.Visible:=true;
+    end;
+if Key = ^A then
+    if GetKeyState(VK_SHIFT)<0 then
+    begin
+    gb1.Visible:=true;
+    end;
+if Key = ^D then
+    if GetKeyState(VK_SHIFT)<0 then
+    begin
+    gbdet.Visible:=true;
+    end;
+
+
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+var bb:byte;
+begin // 10 db mintat vesz az ad detektor kalibralasahoz es elmenti fileba
+if ResultPontSzama>199 then
+  begin
+  varandomeresekszama:= Maxvarandomeresekszama;
+  ResultPontSzama:=1; // a rajzolasnal mutatja a kovetkezo pont hanyadik helyre rajzolando
+  pb.Position:=0;
+  end;
+if cp.Connected then
+  begin
+  bb:=226; cp.Write(bb,1); // low high band select
+  end;
+NextCycleSaveToFile:=true;
+rsMeresdb:=10;
+button3.Visible:=false;
+timer3.Enabled:=true;
+end;
+
+procedure TForm1.rsmentes(ertek: integer);
+var f:textfile;
+begin
+assignfile(f,FileokUtvonala+'rscalc.txt');
+if fileexists(FileokUtvonala+'rscalc.txt') then append(f) else rewrite(f);
+writeln(f, inttostr(ertek) + ';'  + edit4.text + ';' + edit3.text ); // + FloatToStrf(4.94/4095*ertek,ffFixed,6,3) + ','
+closefile(f);
+end;
+
+procedure TForm1.Timer3Timer(Sender: TObject);
+var bb:byte;
+begin
+rsMeresdb:=rsMeresdb - 1;
+if rsMeresdb > 0 then
+  begin
+  if cp.Connected then
+    begin
+    bb:=226; cp.Write(bb,1); // ad olvasasa a 10db log det meresevez
+    end;
+  NextCycleSaveToFile:=true;
+  end else
+    begin
+    edit3.Text:=floattostr((strtofloat(edit3.Text) + strtofloat(edit5.Text)));
+    edit4.Text:=floattostr((strtofloat(edit4.Text) + strtofloat(detfrqlepes.Text)));
+
+    button3.Visible:=true;
+    timer3.Enabled:=false;
+    end;
+end;
+
+// cs11 gomb felirat es szin frissitese
+procedure TForm1.cS11gombfrissitese;
+begin
+if S11show then
+  begin
+  cs11BackColor:=SzinGombHatterS11;
+  cs11.BackColor:=cs11BackColor;
+  if S11showInSWRformat then
+    begin
+     cS11.Caption:='S11 in SWR';
+    end else
+    begin
+     cS11.Caption:='S11 in dB';
+    end;
+  end else
+  begin
+  cS11.Caption:='S11 off';
+  cs11BackColor:=SzinGombHatterS11fako;
+  cs11.BackColor:=cs11BackColor;
+  S11showInSWRformat:=false;
+  if S11showInSWRformat then GrafikonSWRben
+    else GrafikonDBben(false);
+  end;
+end;
+
+// cs21 gomb felirat es szin frissitese
+procedure TForm1.cS21gombfrissitese;
+begin
+if S21show then
+  begin
+  cs21BackColor:=SzinGombHatterS21;
+  cs21.BackColor:=cs21BackColor;
+  cS21.Caption:='S21 in dB';
+  end else
+  begin
+  cs21BackColor:=SzinGombHatterS21fako;
+  cs21.BackColor:=cs21BackColor;
+  cS21.Caption:='S21 off';
+  end;
+end;
+
+procedure TForm1.cS11Click(Sender: TObject);
+begin
+if S11show then // be van kapcsolva
+  begin
+  If not S11showInSWRformat then // most Db formatumban van
+    begin // megjelenites SWR formaban
+    S11showInSWRformat:=true;
+    cS11gombfrissitese;
+    end else
+    begin // S11 kikapcsolasa
+    S11show:=false;
+    cS11gombfrissitese;
+    end;
+  end else
+  begin
+  S11showInSWRformat:=false;
+  S11show:=true;
+  cS11gombfrissitese;
+  end;
+end;
+
+procedure TForm1.cCalRemoveClick(Sender: TObject);
+var f: TForm;
+  rt:integer;
+begin
+if CalS21OK and CalOpenOK then
+  begin // van ervenyes cal, ezt torolni kell
+  // Create the MessageDialog
+  f := Dialogs.CreateMessageDialog('Are you sure to delete all calibration data?' + ^M + ^J +
+        'If you press OK, all calibration data will be deleted!' , dialogs.mtConfirmation, dialogs.mbOKCancel);
+  f.Color := SzinH;
+  f.Font.Color := SzinGrafikon;
+  rt:=f.ShowModal;
+  f.free;
+
+  if rt = mrOk then
+    begin
+    CalS21OK:=false; // regi ertek nem jo.
+    CalOpenOK:=false; // regi ertek invalid
+
+    f := Dialogs.CreateMessageDialog('Calibration data deleted.' + ^M + ^J +
+        'Please recalibrate before next use!', dialogs.mtWarning, [dialogs.mbOK]);
+    f.Color := SzinH; // Set the backcolor to blue.
+    f.Font.Color := SzinGrafikon;
+    f.ShowModal;
+    f.free;
+    cCalgombfrissitese;
+    exit;
+    end;
+  end else
+  begin // nincs érvényes cal, be lehet olvasni az utolsót
+    ascalRead;
+  end;
+end;
+
+procedure TForm1.cCalClick(Sender: TObject);
+var f: TForm;
+  rt:integer;
+begin
+if btnStartStop.Caption<>'Start' then exit;
+  // Create the MessageDialog
+//  f := Dialogs.CreateMessageDialog('Please connect the 50 Ohm calibration load (etalon) to the input!' + ^M + ^J +
+//        'If you press OK, all old calibration data will be overwritten!' + ^M + ^J +
+//        'Press OK to start calibration process.', dialogs.mtConfirmation, dialogs.mbOKCancel);
+  f := Dialogs.CreateMessageDialog('Please leave the all inputs open!' + ^M + ^J +
+        'If you press OK, all old calibration data will be overwritten!' + ^M + ^J +
+        'Press OK to start calibration process.', dialogs.mtConfirmation, dialogs.mbOKCancel);
+
+  f.Color := SzinH; // Set the backcolor to blue.
+  f.Font.Color := SzinGrafikon;
+  rt:=f.ShowModal;
+  f.free;
+
+  if rt <> mrOk then
+    begin
+    f := Dialogs.CreateMessageDialog('Calibration data did not changed.', dialogs.mtWarning, [dialogs.mbOK]);
+    f.Color := SzinH; // Set the backcolor to blue.
+    f.Font.Color := SzinGrafikon;
+    f.ShowModal;
+    f.free;
+    exit;
+    end;
+
+CalOpenOK:=false; // regi ertek invalid
+CalOpenb:=true;
+cCalgombfrissitese;
+MeresInditasa();
+end;
+
+procedure TForm1.cS21Click(Sender: TObject);
+begin
+if S21show then // be van kapcsolva
+  begin
+  S21show:=false;
+  cS21gombfrissitese;
+  end else
+  begin
+  S21show:=true;
+  cS21gombfrissitese;
+  end;
+end;
+
+procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CloseInProcess:=true;
+end;
+
+procedure TForm1.cbHofokClick(Sender: TObject);
+var bb:byte;
+begin
+if cbHomero.Checked then
+  begin
+  varandomeresekszama:=2;
+  if cp.Connected then
+    begin
+    bb:=227; cp.Write(bb,1); // hõmérés
+    end;
+  LogDet_Homeres:=true;
+  end;
+end;
+
+procedure TForm1.btnSzintMerClick(Sender: TObject);
+var bb:byte;
+ er:word;
+begin
+if cp.Connected then
+ begin
+ er:=strtoint(edit2.Text);
+ bb:=229; cp.Write(bb,1); // da kalibralas, allitas v2
+ bb:=trunc(er/16) and 255;
+ label9.caption:='h: ' + inttostr(bb);
+ cp.WriteStr(ByteToHexString(bb)); //cp.Write(bb,1); // high minden bit megy
+ bb:=(er * 16 ) and 240; // csak a felso 4 bitre van szuksegunk
+ label9.caption:=label9.caption + 'l:' + inttostr(bb);
+ cp.WriteStr(ByteToHexString(bb)); //cp.Write(bb,1); // low
+ tmrAD2_read.Enabled:=true; // olvasas inditasa
+ end;
+end;
+
+procedure TForm1.SzintKorrekcio(Sender: TObject);
+var cel, olddaertek, daertek, visszamert, elojel, hibaertek:integer;
+ f:textfile;
+begin
+olddaertek:=strtoint(edit2.Text);
+cel:=strtoint(edit7.Text);
+visszamert:=strtoint(edit6.Text);
+
+hibaertek:=cel - visszamert;
+label5.Caption:='hiba: ' + inttostr(hibaertek);
+if cel < visszamert then elojel:=1 else elojel:=-1;
+
+if abs(hibaertek) < 100 then daertek:=trunc(olddaertek - abs(hibaertek) * 0.5 * elojel)
+  else
+  daertek:=olddaertek - 50 * elojel;
+if abs(hibaertek) < 20 then daertek:=olddaertek - 8 * elojel; // kb 0.5dbm el odebb, a da 20-al odebb
+if abs(hibaertek) < 10 then
+  daertek:=olddaertek - elojel;
+
+if daertek>4095 then daertek:=4095;
+if daertek<0 then daertek:=0;
+
+if abs(hibaertek) <=1 then
+  begin // megvan a kalib ertek. elmentjuk
+  assignfile(f,FileokUtvonala+'asszc-meres.cal'); // asszc.cal
+  if fileexists(FileokUtvonala+'asszc-meres.cal') then
+    begin
+    append(f);
+    end else
+    rewrite(f);
+  writeln(f, inttostr(StopFrq) + ';' + inttostr(olddaertek));
+  closefile(f);
+
+  cbkorrekcio.Checked:=false;
+  SzintKalibKovFreqLeptetes; // kovetkezo frq a kalibralashoz
+  // uj frekvancia meres
+  end else
+    if cbkorrekcio.Checked then
+      begin
+      edit2.Text:=inttostr(daertek);
+      tmrSzintMeres.Enabled:=true;
+      end;
+end;
+
+procedure TForm1.tmrAD2_readTimer(Sender: TObject);
+var bb:byte;
+begin
+ tmrAD2_read.Enabled:=false;
+ varandomeresekszama:=2;
+
+ LogDet_szintmeres:=true;
+ if cp.Connected then
+ begin bb:=230; cp.Write(bb,1); end;// ext2 ad olvasas
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  edit10.Text:=edit8.Text; // a kiirt leptetheto aktualis frq
+
+  StartFrq:=strtoint(edit10.Text) - 20; // kalibracio elso lepese
+  FrqEllenorzesek(1);
+
+  StopFrq:=strtoint(edit10.Text); // stop frq
+  FrqEllenorzesek(3);
+
+  FrqAllitasUtanSzintmeres:=true;
+  cbkorrekcio.Checked:=true;
+  if cbReloadOld.Checked then edit2.Text:=inttostr(KalibraciosSzintKeresese(strtoint(edit10.text)));
+
+  MeresInditasa(); // 1 sweep a hangolasert.
+end;
+
+procedure TForm1.SzintKalibKovFreqLeptetes;
+var stop: integer;
+begin
+  stop:=strtoint(edit10.Text) + strtoint(edit11.text); // kovetkezo frq.
+  if stop > strtoint(edit9.Text) then exit; // vege
+
+  edit10.Text:=inttostr(stop);
+
+  StopFrq:=stop;
+  FrqEllenorzesek(3);
+//  CenterFrq:=stop - 10;
+//  FrqEllenorzesek(2);
+
+  StartFrq:=stop - 20;
+  FrqEllenorzesek(1);
+
+//  SpanFrq:=20; // fixen
+//  FrqEllenorzesek(4);
+
+  FrqAllitasUtanSzintmeres:=true;
+  cbkorrekcio.Checked:=true;
+
+  if cbReloadOld.Checked then edit2.Text:=inttostr(KalibraciosSzintKeresese(strtoint(edit10.text)));
+
+  MeresInditasa(); // 1 sweep a hangolasert.
+end;
+
+procedure TForm1.tmrSzintMeresTimer(Sender: TObject);
+begin
+tmrSzintMeres.Enabled:=false;
+btnSzintMerClick(nil);
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var bb:byte;
+er:word;
+begin
+if cp.Connected then
+  begin
+  er:=strtoint(edDaErt.Text);
+  bb:=229; cp.Write(bb,1); // da kalibralas, allitas v2
+  bb:=trunc(er/16) and 255;
+  cp.WriteStr(ByteToHexString(bb)); //cp.Write(bb,1); // high minden bit megy
+  bb:=(er * 16 ) and 240; // csak a felso 4 bitre van szuksegunk
+  cp.WriteStr(ByteToHexString(bb)); //cp.Write(bb,1); // low
+  end;
+end;
+
+// csak egy frekvencia beallitasa ugy, hogy nem olvasunk vissza semmit
+procedure TForm1.Button4Click(Sender: TObject);
+var sf,er,StartFrqPLL:word;
+ A, B, band, bb, i:integer;
+var p: array[1..18] of byte;
+begin
+sf:=strtoint(edit13.Text);
+Band:=BandVisit(sf); // 0,1 a low, high band. -1=invalid
+if (Band=0) or (Band=1) then
+  begin
+    if cp.Connected then
+    begin
+    bb:=222; cp.Write(bb,1); // low high band select
+    bb:=Band; cp.WriteStr(ByteToHexString(bb));// cp.Write(bb,1);
+    end;
+  end;
+if cp.Connected then
+  begin
+  // szintallitas az egész méréshez 1 db szintet választunk
+  bb:=229; cp.Write(bb,1); // szint da irasa
+  //er:=KalibraciosSzintKeresese(trunc(CenterFrq)); // megkeressuk a koyepfrekvenciahoz tartozo da erteket a cal fileban.
+  er:=KalibraciosSzintKeresese(sf); // megkeressuk a stopfrekvenciahoz tartozo da erteket a cal fileban.
+  bb:=trunc(er/16) and 255; cp.WriteStr(ByteToHexString(bb)); // high minden bit megy
+  bb:=(er * 16 ) and 240; cp.WriteStr(ByteToHexString(bb)); // low
+  end;
+
+if sf < strtoint(frqValtas.Text) then
+  begin // 2000-3990 2ghz-nel
+  StepPerPoint:=trunc(SpanFrq / 20 * 2); // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  StartFrqPLL:=sf;
+  end
+  else
+  begin // 4000-6000 6ghz nel
+  StepPerPoint:=trunc(SpanFrq / 20 ); // 5GHz/en // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  StartFrqPLL:=trunc(sf / 2);
+  end;
+
+p[1] :=232;                                                                             // sweep parancs
+p[2] :=PointDBConst div 256; p[3]:=PointDBConst mod 256;                                                    // lekerdedések száma, pontok száma
+p[4] :=StepPerPoint div 256; p[5]:=StepPerPoint mod 256;                                                                   // step érték * 50khz     //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640 f=((PxB)+A)x32M/R=(64*781+16)*32/640=2500mhz
+p[6] :=bin2byte('11011101'); p[7] :=bin2byte('11000110'); p[ 8]:=bin2byte('10010110');  // F
+p[9] :=bin2byte('00010000'); p[10]:=bin2byte('00001010'); p[11]:=bin2byte('00000000');  // R
+A:=(StartFrqPLL*20) mod 64;
+B:=(StartFrqPLL*20) div 64;
+p[12]:=(trunc(B / 256) and bin2byte('00011111')) + bin2byte('00100000');                 //N0
+p[13]:=B and 255;                                                                        //N1
+p[14]:=A * 4 + 1; //bin2byte('01000001');                                                //N2
+//f/32*R=(64xB)+A= 2500/32*640=
+{p[12]:=bin2byte('00100011'); p[13]:=bin2byte('00001101'); p[14]:=bin2byte('01000001');  // N 2500mhz
+  //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640  f=((64xB)+A)x32.000/R=2500
+  //ha A=36 akkor f=((64xB)+A)x32.000/R=2501mhz jol szamol a proci}
+p[15]:=DelayBeetwen2Points div 256 ; p[16]:= DelayBeetwen2Points mod 256; // delay
+p[17]:=DelayFirstPoint div 256 ; p[18]:= DelayFirstPoint mod 256; // delay2
+
+//varandomeresekszama:= Maxvarandomeresekszama;//2 * 199 * 2 + 2 ;//+ 2; // ennek meg kell, hogy egyezzen a pontok szamaval
+//ResultPontSzama:=1; // a rajzolasnal mutatja a kovetkezo pont hanyadik helyre rajzolando
+//ResultS11jott:=true;
+if cp.Connected then
+  begin
+  cp.Write(p,1); // 1. byte az a parancs.
+  for i:=2 to 18 do cp.WriteStr(ByteToHexString(p[i])); // hexa adatok
+  end;
+//E1 30 30 43 38 30 30 31 34 44 44 43 36 39 36 31 30 30 41 30 30 32 33 30 44 34 31 30 30 30 31
+//á 00C8 0014 DDC696 100A00 230D41 0001
+end;
+
+procedure TForm1.cCalgombfrissitese;
+begin
+if CalOpenOK and CalS21OK then
+  begin
+    ccalBackColor:=SzinGombZold;
+    lbinvalid.Visible:=false;
+  end else
+  begin
+    ccalBackColor:=SzinGombPiros;
+    lbinvalid.Visible:=true;
+  end;
+ccal.BackColor:=ccalBackColor;
+cCalRemovegombfrissitese;
+end;
+
+procedure TForm1.cCalRemovegombfrissitese;
+begin
+if CalOpenOK and CalS21OK then
+  begin // van érvényes cal, törölhetõ
+  cCalRemove.Caption:='clear cal';
+  end else
+  begin
+  cCalRemove.Caption:='reload calib';
+  end;
+end;
+
+// a user .cal allomanyt olvassa be
+function TForm1.ascalRead:boolean;
+var ConfFileOk:boolean;
+ fi: textfile;
+ i: word;
+ ertek: string;
+begin
+ConfFileOk:=false;
+if fileexists(FileokUtvonala+'as.cal') then // user kalibracio egy frekvenciara
+  begin
+  assignfile(fi,FileokUtvonala+'as.cal');
+  reset(fi);
+  readln(fi,StartFrq);
+  BandActuall:=99; // azert, hogy biztosan allitson relet
+  if (StartFrq>1999) and (StartFrq<8001) then
+    begin
+    readln(fi,CenterFrq);
+    readln(fi,StopFrq);
+    readln(fi,SpanFrq);
+    for i:=1 to 201 do
+      begin
+      readln(fi,ertek);
+      CalS21[i]:=strtofloat(ertek);
+      readln(fi,ertek);
+      CalOpen[i]:=strtofloat(ertek);
+      end;
+    CalS21OK:=true;
+    CalOpenOK:=true;
+    ConfFileOk:=true;
+    end;
+  readln(fi,ertek); S11show:=(ertek='1');
+  readln(fi,ertek); S21show:=(ertek='1');
+  readln(fi,ertek); S11showInSWRformat:=(ertek='1');
+  closefile(fi);
+  end;
+cCalgombfrissitese;
+ValidStartFrq:=StartFrq;;
+ValidCenterFrq:=CenterFrq;
+ValidStopFrq:=StopFrq;
+ValidSpanFrq:=SpanFrq;
+FrqEllenorzesek(0);
+ascalRead:=ConfFileOk;
+end;
+
+procedure TForm1.Image1Click(Sender: TObject);
+begin
+if AsFent= 20 then
+  begin
+  AsFent:= 10; // 20dbm
+  AsLent:= -40; // dbm
+  end else
+  begin
+  AsFent:= 20; // 20dbm
+  AsLent:= -30; // dbm
+  end;
+GrafikonDBben(true);
+end;
+
+procedure TForm1.dbkfontcolor(SzinGrafikon:tcolor);
+begin
+db1.Font.Color:=SzinGrafikon;
+db2.Font.Color:=SzinGrafikon;
+db3.Font.Color:=SzinGrafikon;
+db4.Font.Color:=SzinGrafikon;
+db5.Font.Color:=SzinGrafikon;
+db6.Font.Color:=SzinGrafikon;
+db7.Font.Color:=SzinGrafikon;
+db8.Font.Color:=SzinGrafikon;
+db9.Font.Color:=SzinGrafikon;
+db10.Font.Color:=SzinGrafikon;
+db11.Font.Color:=SzinGrafikon;
+end;
+
+procedure TForm1.bbkvisible(latszik:boolean);
+begin
+bb1.visible:=latszik;
+bb2.visible:=latszik;
+bb3.visible:=latszik;
+bb4.visible:=latszik;
+bb5.visible:=latszik;
+end;
+
+procedure TForm1.OKClick(Sender: TObject);
+begin
+    setups.Visible:=false;
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+begin
+ gb1.Visible:=false;
+end;
+
+function TForm1.CalcHeightDifference : String;
+  var iActualHeightDifference : integer;
+      iCalcHeightDifference : integer;
+      sInfo : String;
+begin
+  iCalcHeightDifference := 0;
+  iActualHeightDifference := form1.Height - form1.ClientHeight;
+
+  //Caption
+  iCalcHeightDifference := iCalcHeightDifference + GetSystemMetrics( SM_CYCAPTION );
+  sInfo := ' + Form Caption = ' + inttostr( GetSystemMetrics( SM_CYCAPTION ) );
+
+  //Borders
+  iCalcHeightDifference := iCalcHeightDifference + GetSystemMetrics( SM_CYFRAME) + GetSystemMetrics( SM_CYFRAME);
+  sInfo := sInfo + sLineBreak + ' + Border Height(' + inttostr( GetSystemMetrics( SM_CYFRAME)) + ') times two = ' + inttostr( GetSystemMetrics( SM_CYFRAME)+GetSystemMetrics( SM_CYFRAME)  );
+
+  //Menu
+  if form1.Menu <> nil then begin
+    iCalcHeightDifference := iCalcHeightDifference + GetSystemMetrics(SM_CYMENU);
+    sInfo := sInfo + sLineBreak + ' + Form MainMenu = ' + inttostr( GetSystemMetrics(SM_CYMENU) );
+  end;
+
+  result := format( 'Form.ClientHeight=%d', [form1.ClientHeight])
+          + sLineBreak
+          + format('Form.Height=%d', [Self.Height])
+          + sLineBreak
+          + format('The Height Difference of %d is made up of', [Self.Height-Self.ClientHeight])
+          + sLineBreak
+          + sInfo
+          + sLineBreak
+          + format(' Total( %d )', [iCalcHeightDifference])     ;
+end;
+
+procedure TForm1.btdetvzarClick(Sender: TObject);
+begin
+gbdet.Visible:=false;
+end;
+
+
+procedure TForm1.i1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+if Button = mbLeft then
+  begin
+  Mark1_poz:=trunc(x/3);// x/3=> 0..200
+//    ShowMessage('LEFT button' + inttostr())
+  end
+  else if Button = mbRight then
+  Mark2_poz:=trunc(x/3);// x/3=> 0..200
+//    ShowMessage('RIGHT button')
+//  else ShowMessage('MIDDLE button');
+end;
+
+ function GetSpecialFolderPath(folder : integer) : string;
+ const
+   SHGFP_TYPE_CURRENT = 0;
+ var
+   path: array [0..MAX_PATH] of char;
+ begin
+   if SUCCEEDED(SHGetFolderPath(0,folder,0,SHGFP_TYPE_CURRENT,@path[0])) then
+     Result := path
+   else
+     Result := '';
+ end;
+
+
+function LocalAppDataPath : string;
+const
+  SHGFP_TYPE_CURRENT = 0;
+var
+  path: array [0..MaxChar] of char;
+begin
+  SHGetFolderPath(0,CSIDL_LOCAL_APPDATA,0,SHGFP_TYPE_CURRENT,@path[0]);
+  Result := StrPas(path);
+end;
+
+// ANT meres folyamata
+procedure TForm1.btnAntSweepStartClick(Sender: TObject);
+begin
+tmrAntSweep.Enabled:=false;
+ try
+ tmrAntSweep.Interval:=strtoint(edAntWait.Text);
+ except
+ ShowMessage('Hibas wait');
+ end;
+edAntFrq.Text:=edAntStart.Text;
+Ant_mereshez_Frq_es_Szint_Iras(edAntFrq.Text);// frq-re léptetés
+
+cbAntFut.Checked:=true;
+tmrAntSweep.Enabled:=true;
+end;
+
+procedure TForm1.tmrAntSweepTimer(Sender: TObject);
+begin
+if cbAntFut.Checked=false then
+  begin
+  tmrAntSweep.Enabled:=false;
+  exit;
+  end;
+edAntFrq.Text:=inttostr(strtoint(edAntFrq.Text) + strtoint(edAntStep.Text));
+if strtoint(edAntFrq.Text)>=strtoint(edAntStop.Text) then
+  edAntFrq.Text:=edAntStart.Text;
+Ant_mereshez_Frq_es_Szint_Iras(edAntFrq.Text);// frq-re léptetés
+ try
+ tmrAntSweep.Interval:=strtoint(edAntWait.Text);
+ except
+ end;
+end;
+
+
+Procedure TForm1.Ant_mereshez_Frq_es_Szint_Iras(FrqS:String);
+var p: array[1..18] of byte;
+i:integer;
+A, B, ido: integer;
+StartFrqPLL, er:word;
+Band,bb: integer;
+Frq: word;
+begin
+Frq:=strtoint(FrqS);
+if S11showInSWRformat then GrafikonSWRben
+else GrafikonDBben(false);
+
+Band:=BandVisit(Frq); // 0,1 a low, high band. -1=invalid
+if (Band=0) or (Band=1) then
+  begin
+    if cp.Connected then
+      begin
+      bb:=222; cp.Write(bb,1); // low high band select
+      bb:=Band; cp.WriteStr(ByteToHexString(bb));// cp.Write(bb,1);
+      end;
+  end;
+if cp.Connected then
+  begin
+  // szintallitas az egész méréshez 1 db szintet választunk
+  bb:=229; cp.Write(bb,1); // szint da irasa
+  //er:=KalibraciosSzintKeresese(trunc(CenterFrq)); // megkeressuk a koyepfrekvenciahoz tartozo da erteket a cal fileban.
+  er:=KalibraciosSzintKeresese(Frq); // megkeressuk a stopfrekvenciahoz tartozo da erteket a cal fileban.
+  bb:=trunc(er/16) and 255; cp.WriteStr(ByteToHexString(bb)); // high minden bit megy
+  bb:=(er * 16 ) and 240; cp.WriteStr(ByteToHexString(bb)); // low
+  end;
+
+if Frq < strtoint(frqValtas.Text) then
+  begin // 2000-3990 2ghz-nel
+  StepPerPoint:=trunc(SpanFrq / 20 * 2); // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  StartFrqPLL:=Frq;
+  end
+  else
+  begin // 4000-6000 6ghz nel
+  StepPerPoint:=trunc(SpanFrq / 20 ); // 5GHz/en // azert mert 50khz a lepeskoz 2-4ghz-ig ez az ertek 100khz-es, pontosabban 50khz-es lepesben ertendo
+  StartFrqPLL:=trunc(Frq / 2);
+  end;
+{
+p[1] :=232; //225                                                                            // sweep parancs
+//p[2] :=PointDBConst div 256; p[3]:=PointDBConst mod 256;                                                    // lekerdedések száma, pontok száma
+p[2] :=0; p[3]:=0;//mod                                                    // lekerdedések száma, pontok száma
+p[4] :=StepPerPoint div 256; p[5]:=StepPerPoint mod 256;                                                                   // step érték * 50khz     //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640 f=((PxB)+A)x32M/R=(64*781+16)*32/640=2500mhz
+p[6] :=bin2byte('11011101'); p[7] :=bin2byte('11000110'); p[ 8]:=bin2byte('10010110');  // F
+p[9] :=bin2byte('00010000'); p[10]:=bin2byte('00001010'); p[11]:=bin2byte('00000000');  // R
+A:=(StartFrqPLL*20) mod 64;
+B:=(StartFrqPLL*20) div 64;
+p[12]:=(trunc(B / 256) and bin2byte('00011111')) + bin2byte('00100000');                 //N0
+p[13]:=B and 255;                                                                        //N1
+p[14]:=A * 4 + 1; //bin2byte('01000001');                                                //N2
+//f/32*R=(64xB)+A= 2500/32*640=
+{p[12]:=bin2byte('00100011'); p[13]:=bin2byte('00001101'); p[14]:=bin2byte('01000001');  // N 2500mhz
+  //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640  f=((64xB)+A)x32.000/R=2500
+  //ha A=36 akkor f=((64xB)+A)x32.000/R=2501mhz jol szamol a proci
+p[15]:=DelayBeetwen2Points div 256 ; p[16]:= DelayBeetwen2Points mod 256; // delay
+p[17]:=DelayFirstPoint div 256 ; p[18]:= DelayFirstPoint mod 256; // delay2
+
+if cp.Connected then
+  begin
+  cp.Write(p,1); // 1. byte az a parancs.
+  for i:=2 to 18 do cp.WriteStr(ByteToHexString(p[i])); // hexa adatok
+  end;
+//E1 30 30 43 38 30 30 31 34 44 44 43 36 39 36 31 30 30 41 30 30 32 33 30 44 34 31 30 30 30 31
+//á 00C8 0014 DDC696 100A00 230D41 0001
+}
+
+p[1] :=232;                                                                             // sweep parancs
+p[2] :=PointDBConst div 256; p[3]:=PointDBConst mod 256;                                                    // lekerdedések száma, pontok száma
+p[4] :=StepPerPoint div 256; p[5]:=StepPerPoint mod 256;                                                                   // step érték * 50khz     //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640 f=((PxB)+A)x32M/R=(64*781+16)*32/640=2500mhz
+p[6] :=bin2byte('11011101'); p[7] :=bin2byte('11000110'); p[ 8]:=bin2byte('10010110');  // F
+p[9] :=bin2byte('00010000'); p[10]:=bin2byte('00001010'); p[11]:=bin2byte('00000000');  // R
+A:=(StartFrqPLL*20) mod 64;
+B:=(StartFrqPLL*20) div 64;
+p[12]:=(trunc(B / 256) and bin2byte('00011111')) + bin2byte('00100000');                 //N0
+p[13]:=B and 255;                                                                        //N1
+p[14]:=A * 4 + 1; //bin2byte('01000001');                                                //N2
+//f/32*R=(64xB)+A= 2500/32*640=
+{p[12]:=bin2byte('00100011'); p[13]:=bin2byte('00001101'); p[14]:=bin2byte('01000001');  // N 2500mhz
+  //uj A=16 B=781 f=2500mhz, 32mhz/q => R=640  f=((64xB)+A)x32.000/R=2500
+  //ha A=36 akkor f=((64xB)+A)x32.000/R=2501mhz jol szamol a proci}
+p[15]:=DelayBeetwen2Points div 256 ; p[16]:= DelayBeetwen2Points mod 256; // delay
+p[17]:=DelayFirstPoint div 256 ; p[18]:= DelayFirstPoint mod 256; // delay2
+
+//varandomeresekszama:= Maxvarandomeresekszama;//2 * 199 * 2 + 2 ;//+ 2; // ennek meg kell, hogy egyezzen a pontok szamaval
+//ResultPontSzama:=1; // a rajzolasnal mutatja a kovetkezo pont hanyadik helyre rajzolando
+//ResultS11jott:=true;
+if cp.Connected then
+  begin
+  cp.Write(p,1); // 1. byte az a parancs.
+  for i:=2 to 18 do cp.WriteStr(ByteToHexString(p[i])); // hexa adatok
+  end;
+//E1 30 30 43 38 30 30 31 34 44 44 43 36 39 36 31 30 30 41 30 30 32 33 30 44 34 31 30 30 30 31
+//á 00C8 0014 DDC696 100A00 230D41 0001
+
+end;
+
+procedure TForm1.SaveScreenClick(Sender: TObject);
+begin
+GetScreenShot(sstActiveWindow);
+end;
+
+procedure TForm1.GetScreenShot(shotType: TScreenShotType);
+var
+  w,h: integer;
+  DC: HDC;
+  hWin: Cardinal;
+  r: TRect;
+  tmpBmp: TBitmap;
+  fn: string;
+   jpgImg: TJPEGImage;
+begin
+  hWin := 0;
+  case shotType of
+    sstActiveWindow:
+      begin
+        //only the active window
+        hWin := GetForegroundWindow;
+        dc := GetWindowDC(hWin);
+        GetWindowRect(hWin,r);
+        w := r.Right - r.Left;
+        h := r.Bottom - r.Top;
+      end;  //sstActiveWindow
+    sstActiveClientArea:
+      begin
+        //only the active client area (active window minus title bars)
+        hWin := GetForegroundWindow;
+        dc := GetDC(hWin);
+        GetWindowRect(hWin,r);
+        w := r.Right - r.Left;
+        h := r.Bottom - r.Top;
+      end;  //sstActiveClientArea
+    sstPrimaryMonitor:
+      begin
+        //only the primary monitor.  If 1 monitor, same as sstDesktop.
+        hWin := GetDesktopWindow;
+        dc := GetDC(hWin);
+        w := GetDeviceCaps(DC,HORZRES);
+        h := GetDeviceCaps(DC,VERTRES);
+      end;  //sstPrimaryMonitor
+    sstDesktop:
+      begin
+        //ENTIRE desktop (all monitors)
+        dc := GetDC(GetDesktopWindow);
+        w := Screen.DesktopWidth;
+        h := Screen.DesktopHeight;
+      end;  //sstDesktop
+    else begin
+      Exit;
+    end;  //case else
+  end;  //case
+
+  //convert to jpg
+  tmpBmp := TBitmap.Create;
+  try
+    tmpBmp.Width := w;
+    tmpBmp.Height := h;
+    BitBlt(tmpBmp.Canvas.Handle,0,0,tmpBmp.Width,
+      tmpBmp.Height,DC,0,0,SRCCOPY);
+//      msgdialog
+
+ jpgImg := TJPEGImage.Create;
+ jpgImg.Assign(tmpbmp);
+ fn:=editFN.Text;
+// tmpbmp.SaveToFile('z:\ant\' + fn + '.bmp');
+ jpgImg.SaveToFile('z:\ant\' + fn + '-' + copy(minimumSWRFreq,1,4) +  '-' + minimumSWRErtek + '-a.jpg');
+ jpgImg.Free;
+//    img.Assign(tmpBmp);
+  finally
+    ReleaseDC(hWin,DC);
+    FreeAndNil(tmpBmp);
+  end;  //try-finally
+end;
+
+
+
+end.
+
+
